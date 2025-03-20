@@ -1,4 +1,4 @@
-package database
+package Database
 
 import (
 	"database/sql"
@@ -23,21 +23,22 @@ func ConnectDB() {
 
 func CreateTables() {
 	queries := []string{
-        `CREATE TABLE IF NOT EXISTS users (
+		`CREATE TABLE IF NOT EXISTS users (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
             active INT NOT NULL,
             token TEXT NOT NULL
 		);`,
-        `CREATE TABLE IF NOT EXISTS posts (
+		`CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL
         );`,
-    }
+	}
+}
 
 func CheckIfUserExist(username string, password string) bool {
-
+	return true
 }
