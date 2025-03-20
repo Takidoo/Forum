@@ -62,11 +62,11 @@ func CheckIfUserExist(username, password string) bool {
 	err := DB.QueryRow(query, username, password).Scan(&exists)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return false, nil
+			return false
 		}
-		return false, nil
+		return false
 	}
-	return exists, nil
+	return exists
 }
 
 func CloseDB() {

@@ -19,6 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			json.NewEncoder(w).Encode("{Token : \"abcd\"}")
 		}
 	} else {
-		print("Invalid Args")
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode("{Error : \"Invalid Args\"}")
 	}
 }
