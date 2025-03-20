@@ -1,9 +1,14 @@
 package Database
 
 import (
+	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
 	"log"
+	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -62,11 +67,67 @@ func CheckIfUserExist(username, password string) bool {
 	err := DB.QueryRow(query, username, password).Scan(&exists)
 	if err != nil {
 		if err == sql.ErrNoRows {
+			return false
+		}
+		return false
+	}
+	return exists
+}
+
+func RegisterUser(username, password string) error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	query := `INSERT INTO users (username, password) VALUES (?, ?)`
+	_, err = DB.Exec(query, username, string(hashedPassword))
+	return err
+}
+
+func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
+	var storedPassword, token string
+	var userID int
+
+	query := `SELECT id, password FROM users WHERE username = ?`
+	err := DB.QueryRow(query, username).Scan(&userID, &storedPassword)
+	if err != nil {
+		if err == sql.ErrNoRows {
 			return false, nil
 		}
+		return false, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
 		return false, nil
 	}
-	return exists, nil
+
+	token = generateToken()
+
+	updateQuery := `UPDATE users SET token = ? WHERE id = ?`
+	_, err = DB.Exec(updateQuery, token, userID)
+	if err != nil {
+		return false, err
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session_token",
+		Value:    token,
+		HttpOnly: true,
+		Path:     "/",
+	})
+
+	return true, nil
+}
+
+func generateToken() string {
+	bytes := make([]byte, 32)
+	_, err := rand.Read(bytes)
+	if err != nil {
+		log.Fatal("Erreur durant la génération du token:", err)
+	}
+	return hex.EncodeToString(bytes)
 }
 
 func CloseDB() {
