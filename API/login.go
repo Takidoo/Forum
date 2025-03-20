@@ -16,7 +16,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			json.NewEncoder(w).Encode("{Error : \"Nom d'utilisateur ou mot de passe invalide\"}")
 		} else {
 			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode("{Token : \"abcd\"}")
+			Database.LoginUser(username, password, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusNotFound)
