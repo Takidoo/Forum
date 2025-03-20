@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
+	Database.ConnectDB()
 	var err = Database.RegisterUser("Takido", "test")
 	print(err)
-	Database.ConnectDB()
 	http.HandleFunc("/", PageHandlers.LoginPage)
 	http.HandleFunc("/login", API.Login)
 	http.ListenAndServe(":80", nil)
