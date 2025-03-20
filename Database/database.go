@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 
+	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -30,7 +31,7 @@ func CreateTables() {
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
-            token TEXT UNIQUE NOT NULL
+            token TEXT UNIQUE
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	print("test")
-	Database.RegisterUser("Takido", "test")
+	var err = Database.RegisterUser("Takido", "test")
+	print(err)
 	Database.ConnectDB()
 	http.HandleFunc("/", PageHandlers.LoginPage)
 	http.HandleFunc("/login", API.Login)
