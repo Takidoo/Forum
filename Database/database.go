@@ -62,8 +62,9 @@ func CreateTables() {
 
 func CheckIfUserExist(username, password string) bool {
 	var exists bool
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	query := `SELECT EXISTS (SELECT 1 FROM users WHERE username = ? AND password = ? LIMIT 1);`
-	err := DB.QueryRow(query, username, password).Scan(&exists)
+	err := DB.QueryRow(query, username, hashedPassword).Scan(&exists)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return false
