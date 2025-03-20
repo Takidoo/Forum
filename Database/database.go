@@ -56,7 +56,7 @@ func CreateTables() {
 	fmt.Println("Tables de la base de donnée créer avec succes")
 }
 
-func CheckIfUserExist(username, password string) (bool, error) {
+func CheckIfUserExist(username, password string) bool {
 	var exists bool
 	query := `SELECT EXISTS (SELECT 1 FROM users WHERE username = ? AND password = ? LIMIT 1);`
 	err := DB.QueryRow(query, username, password).Scan(&exists)
@@ -64,7 +64,7 @@ func CheckIfUserExist(username, password string) (bool, error) {
 		if err == sql.ErrNoRows {
 			return false, nil
 		}
-		return false, err
+		return false, nil
 	}
 	return exists, nil
 }
