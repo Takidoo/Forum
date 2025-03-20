@@ -30,7 +30,6 @@ func CreateTables() {
             active INT NOT NULL,
             token TEXT NOT NULL
 		);`,
-    queries := []string{
         `CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT UNIQUE NOT NULL,
