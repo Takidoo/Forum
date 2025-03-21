@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -94,7 +93,7 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	var storedPassword, token string
 	var userID int
 
-	query := `SELECT id, password FROM users WHERE username = ?`
+	query := "SELECT id, password FROM users WHERE username = ?"
 	err := DB.QueryRow(query, username).Scan(&userID, &storedPassword)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -109,8 +108,7 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	}
 
 	token = generateToken()
-
-	updateQuery := `UPDATE users SET token = ? WHERE id = ?`
+	updateQuery := "UPDATE users SET token = ? WHERE id = ?"
 	_, err = DB.Exec(updateQuery, token, userID)
 	if err != nil {
 		return false, err
@@ -118,15 +116,10 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	cookie := http.Cookie{
 		Name:     "session_id",
 		Value:    token,
-		Expires:  time.Now().Add(24 * time.Hour),
-		HttpOnly: true,
-		Secure:   false,
 		Path:     "/",
-		SameSite: http.SameSiteLaxMode}
-
-	// Ajout du cookie à la réponse HTTP
+		HttpOnly: true,
+	}
 	http.SetCookie(w, &cookie)
-	w.Write([]byte("Cookie de session créé !"))
 
 	return true, nil
 }
