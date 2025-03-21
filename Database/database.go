@@ -24,6 +24,15 @@ func ConnectDB() {
 	CreateTables()
 }
 
+func MiddlewareAuth(token string) bool {
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", token).Scan(&count)
+	if err != nil {
+		return false
+	}
+	return count > 0
+}
+
 func CreateTables() {
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS users (
@@ -59,7 +68,7 @@ func CreateTables() {
 	fmt.Println("Tables de la base de données créées avec succès")
 }
 
-func CheckIfUserExist(username, password string) bool {
+func CheckUserPassword(username, password string) bool {
 	var hashedPassword string
 	query := `SELECT password FROM users WHERE username = ? LIMIT 1`
 	err := DB.QueryRow(query, username).Scan(&hashedPassword)

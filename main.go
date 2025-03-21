@@ -9,12 +9,10 @@ import (
 
 func main() {
 	Database.ConnectDB()
-	Database.RegisterUser("Takido", "test")
-	Database.RegisterUser("Takido", "test")
-	Database.RegisterUser("Takido2", "test")
-	Database.RegisterUser("Takido3", "test")
+	Database.CreatePost(1, 1, "Salut")
 	http.Handle("/Ressources/", http.StripPrefix("/Ressources/", http.FileServer(http.Dir("./Ressources"))))
 	http.HandleFunc("/", PageHandlers.LoginPage)
 	http.HandleFunc("/login", API.Login)
+	http.HandleFunc("/FetchThreadPosts", API.FetchThreadPosts)
 	http.ListenAndServe(":80", nil)
 }
