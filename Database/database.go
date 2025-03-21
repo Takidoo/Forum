@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -61,18 +62,22 @@ func CreateTables() {
 }
 
 func CheckIfUserExist(username, password string) bool {
-	var exists bool
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	print("User exist : " + string(hashedPassword))
-	query := `SELECT EXISTS (SELECT 1 FROM users WHERE username = ? AND password = ? LIMIT 1);`
-	err := DB.QueryRow(query, username, string(hashedPassword)).Scan(&exists)
+	var hashedPassword string
+	query := `SELECT password FROM users WHERE username = ? LIMIT 1`
+	err := DB.QueryRow(query, username).Scan(&hashedPassword)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return false
 		}
 		return false
 	}
-	return exists
+
+	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 func RegisterUser(username, password string) error {
@@ -80,7 +85,6 @@ func RegisterUser(username, password string) error {
 	if err != nil {
 		return err
 	}
-	print("Pass : " + string(hashedPassword))
 	query := `INSERT INTO users (username, password) VALUES (?, ?)`
 	_, err = DB.Exec(query, username, string(hashedPassword))
 	return err
@@ -111,13 +115,18 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-
-	http.SetCookie(w, &http.Cookie{
-		Name:     "session_token",
+	cookie := http.Cookie{
+		Name:     "session_id",
 		Value:    token,
+		Expires:  time.Now().Add(24 * time.Hour),
 		HttpOnly: true,
+		Secure:   false,
 		Path:     "/",
-	})
+		SameSite: http.SameSiteLaxMode}
+
+	// Ajout du cookie à la réponse HTTP
+	http.SetCookie(w, &cookie)
+	w.Write([]byte("Cookie de session créé !"))
 
 	return true, nil
 }

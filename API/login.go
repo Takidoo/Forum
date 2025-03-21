@@ -17,6 +17,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.WriteHeader(http.StatusOK)
 			Database.LoginUser(username, password, w)
+			json.NewEncoder(w).Encode("{Succes : \"Connecté\"}")
 		}
 	} else {
 		w.WriteHeader(http.StatusNotFound)
