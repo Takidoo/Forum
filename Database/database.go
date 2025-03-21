@@ -18,10 +18,10 @@ func ConnectDB() {
 	var err error
 	DB, err = sql.Open("sqlite3", "forum.db")
 	if err != nil {
-		log.Fatal("Erreur durant la connection a la base de donnée:", err)
+		log.Fatal("Erreur lors de la connexion à la base de données:", err)
 	}
 
-	fmt.Println("Connection a la base de donnée avec succés")
+	fmt.Println("Connexion à la base de données réussie")
 	CreateTables()
 }
 
@@ -54,10 +54,10 @@ func CreateTables() {
 	for _, query := range queries {
 		_, err := DB.Exec(query)
 		if err != nil {
-			log.Fatal("Erreur durant la création des tables de la base de donnée:", err)
+			log.Fatal("Erreur lors de la création des tables de la base de données:", err)
 		}
 	}
-	fmt.Println("Tables de la base de donnée créer avec succes")
+	fmt.Println("Tables de la base de données créées avec succès")
 }
 
 func CheckIfUserExist(username, password string) bool {
@@ -80,13 +80,32 @@ func CheckIfUserExist(username, password string) bool {
 }
 
 func RegisterUser(username, password string) error {
+	var exists bool
+	checkQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE username = ? LIMIT 1);`
+	err := DB.QueryRow(checkQuery, username).Scan(&exists)
+	if err != nil {
+		return err
+	}
+
+	if exists {
+		return fmt.Errorf("Nom d'utilisateur déjà pris")
+	}
+	print("pas existe")
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
-	query := `INSERT INTO users (username, password) VALUES (?, ?)`
+	print("hask")
+
+	query := `INSERT INTO users (username, password) VALUE (?, ?)`
 	_, err = DB.Exec(query, username, string(hashedPassword))
-	return err
+	if err != nil {
+		return err
+	}
+
+	print("Utilisateur enregistré avec succès !")
+	return nil
 }
 
 func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
@@ -128,7 +147,7 @@ func generateToken() string {
 	bytes := make([]byte, 32)
 	_, err := rand.Read(bytes)
 	if err != nil {
-		log.Fatal("Erreur durant la génération du token:", err)
+		log.Fatal("Erreur lors de la génération du token:", err)
 	}
 	return hex.EncodeToString(bytes)
 }
@@ -136,6 +155,48 @@ func generateToken() string {
 func CloseDB() {
 	if DB != nil {
 		DB.Close()
-		fmt.Println("Connection a la base de donnée fermer")
+		fmt.Println("Connexion à la base de données fermée")
 	}
+}
+
+func CreatePost(threadID, userID int, content string) error {
+	query := `INSERT INTO posts (thread_id, user_id, content) VALUES (?, ?, ?)`
+	_, err := DB.Exec(query, threadID, userID, content)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Post créé avec succès !")
+	return nil
+}
+
+func EditPost(postID, userID int, newContent string) error {
+	query := `UPDATE posts SET content = ? WHERE id = ? AND user_id = ?`
+	result, err := DB.Exec(query, newContent, postID, userID)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		return fmt.Errorf("Aucun post correspondant trouvé ou l'utilisateur n'est pas propriétaire")
+	}
+
+	fmt.Println("Post modifié avec succès !")
+	return nil
+}
+
+func DeletePost(postID, userID int) error {
+	query := `DELETE FROM posts WHERE id = ? AND user_id = ?`
+	result, err := DB.Exec(query, postID, userID)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		return fmt.Errorf("Aucun post correspondant trouvé ou l'utilisateur n'est pas propriétaire")
+	}
+
+	fmt.Println("Post supprimé avec succès !")
+	return nil
 }
