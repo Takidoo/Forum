@@ -90,7 +90,6 @@ func RegisterUser(username, password string) error {
 	if count > 0 {
 		return fmt.Errorf("Nom d'utilisateur déjà pris")
 	}
-	print("pas existe")
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {

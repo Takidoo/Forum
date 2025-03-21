@@ -12,6 +12,7 @@ func main() {
 	Database.RegisterUser("Takido", "test")
 	Database.RegisterUser("Takido", "test")
 	Database.RegisterUser("Takido2", "test")
+	Database.RegisterUser("Takido3", "test")
 	http.Handle("/Ressources/", http.StripPrefix("/Ressources/", http.FileServer(http.Dir("./Ressources"))))
 	http.HandleFunc("/", PageHandlers.LoginPage)
 	http.HandleFunc("/login", API.Login)
