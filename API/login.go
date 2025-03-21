@@ -2,9 +2,12 @@ package API
 
 import (
 	"Forum/Database"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +34,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	success, err := Database.LoginUser(username, password, w)
+	success, err := LoginUser(username, password, w)
 	if err != nil {
 		fmt.Println("Erreur durant le login user:", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -47,4 +50,39 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"message": "Connexion réussie avec succès"})
+}
+
+func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
+	var storedPassword, token string
+	var userID int
+
+	query := "SELECT id, password FROM users WHERE username = ?"
+	err := Database.DB.QueryRow(query, username).Scan(&userID, &storedPassword)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false, nil
+		}
+		return false, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
+		return false, nil
+	}
+
+	token = Database.GenerateToken()
+	updateQuery := "UPDATE users SET token = ? WHERE id = ?"
+	_, err = Database.DB.Exec(updateQuery, token, userID)
+	if err != nil {
+		return false, err
+	}
+	cookie := http.Cookie{
+		Name:     "session_id",
+		Value:    token,
+		Path:     "/",
+		HttpOnly: true,
+	}
+	http.SetCookie(w, &cookie)
+
+	return true, nil
 }

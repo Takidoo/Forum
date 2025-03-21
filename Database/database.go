@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
-	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -79,68 +78,7 @@ func CheckIfUserExist(username, password string) bool {
 	return true
 }
 
-func RegisterUser(username, password string) error {
-	var count int
-	checkQuery := `SELECT COUNT(1) FROM users WHERE username = ?;`
-	err := DB.QueryRow(checkQuery, username).Scan(&count)
-	if err != nil {
-		return fmt.Errorf("Erreur lors de la vérification de l'existence de l'utilisateur : %v", err)
-	}
-
-	if count > 0 {
-		return fmt.Errorf("Nom d'utilisateur déjà pris")
-	}
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return fmt.Errorf("Erreur lors du hachage du mot de passe : %v", err)
-	}
-	query := `INSERT INTO users (username, password) VALUES (?, ?)`
-	_, err = DB.Exec(query, username, string(hashedPassword))
-	if err != nil {
-		return fmt.Errorf("Erreur lors de l'insertion du nouvel utilisateur : %v", err)
-	}
-
-	print("Utilisateur enregistré avec succès !")
-	return nil
-}
-
-func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
-	var storedPassword, token string
-	var userID int
-
-	query := "SELECT id, password FROM users WHERE username = ?"
-	err := DB.QueryRow(query, username).Scan(&userID, &storedPassword)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false, nil
-		}
-		return false, err
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
-	if err != nil {
-		return false, nil
-	}
-
-	token = generateToken()
-	updateQuery := "UPDATE users SET token = ? WHERE id = ?"
-	_, err = DB.Exec(updateQuery, token, userID)
-	if err != nil {
-		return false, err
-	}
-	cookie := http.Cookie{
-		Name:     "session_id",
-		Value:    token,
-		Path:     "/",
-		HttpOnly: true,
-	}
-	http.SetCookie(w, &cookie)
-
-	return true, nil
-}
-
-func generateToken() string {
+func GenerateToken() string {
 	bytes := make([]byte, 32)
 	_, err := rand.Read(bytes)
 	if err != nil {
