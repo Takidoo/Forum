@@ -96,8 +96,6 @@ func RegisterUser(username, password string) error {
 	if err != nil {
 		return fmt.Errorf("Erreur lors du hachage du mot de passe : %v", err)
 	}
-	print("hask")
-
 	query := `INSERT INTO users (username, password) VALUES (?, ?)`
 	_, err = DB.Exec(query, username, string(hashedPassword))
 	if err != nil {
