@@ -29,7 +29,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !Database.UserIsValid(cookie.Value) {
+	if !Database.MiddlewareAuth(cookie.Value) {
 		http.Error(w, "Utilisateur invalide", http.StatusBadRequest)
 		return
 	}
