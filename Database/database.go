@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
+	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -24,9 +25,32 @@ func ConnectDB() {
 	CreateTables()
 }
 
-func MiddlewareAuth(token string) bool {
+func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Token manquant", http.StatusUnauthorized)
+		return false
+	}
 	var count int
-	err := DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", token).Scan(&count)
+	err = DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", cookie.Value).Scan(&count)
+	if err != nil {
+		return false
+	}
+	if count > 0 {
+		return true
+	} else {
+		http.Error(w, "Utilisateur invalide", http.StatusBadRequest)
+		return false
+	}
+}
+
+func GetUserInfo(w http.ResponseWriter, r *http.Request, token string) {
+
+}
+
+func TheadExist(thread_id string) bool {
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM threads WHERE id = ?", thread_id).Scan(&count)
 	if err != nil {
 		return false
 	}

@@ -17,20 +17,12 @@ type Post struct {
 }
 
 func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
+	if !Database.MiddlewareAuth(w, r) {
+		return
+	}
 	threadID, err := strconv.Atoi(r.FormValue("thread_id"))
 	if err != nil {
 		http.Error(w, "ID du thread invalide", http.StatusBadRequest)
-		return
-	}
-
-	cookie, err := r.Cookie("session_id")
-	if err != nil {
-		http.Error(w, "Token manquant", http.StatusUnauthorized)
-		return
-	}
-
-	if !Database.MiddlewareAuth(cookie.Value) {
-		http.Error(w, "Utilisateur invalide", http.StatusBadRequest)
 		return
 	}
 
