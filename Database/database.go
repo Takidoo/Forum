@@ -80,28 +80,28 @@ func CheckIfUserExist(username, password string) bool {
 }
 
 func RegisterUser(username, password string) error {
-	var exists bool
-	checkQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE username = ? LIMIT 1);`
-	err := DB.QueryRow(checkQuery, username).Scan(&exists)
+	var count int
+	checkQuery := `SELECT COUNT(1) FROM users WHERE username = ?;`
+	err := DB.QueryRow(checkQuery, username).Scan(&count)
 	if err != nil {
-		return err
+		return fmt.Errorf("Erreur lors de la vérification de l'existence de l'utilisateur : %v", err)
 	}
 
-	if exists {
+	if count > 0 {
 		return fmt.Errorf("Nom d'utilisateur déjà pris")
 	}
 	print("pas existe")
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return fmt.Errorf("Erreur lors du hachage du mot de passe : %v", err)
 	}
 	print("hask")
 
-	query := `INSERT INTO users (username, password) VALUE (?, ?)`
+	query := `INSERT INTO users (username, password) VALUES (?, ?)`
 	_, err = DB.Exec(query, username, string(hashedPassword))
 	if err != nil {
-		return err
+		return fmt.Errorf("Erreur lors de l'insertion du nouvel utilisateur : %v", err)
 	}
 
 	print("Utilisateur enregistré avec succès !")
