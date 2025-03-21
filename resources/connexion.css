@@ -3,3 +3,40 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    display: grid;
+    grid-template-area: 'header'
+                         'img'
+                         'contanerConnexion';
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f1f1;
+    min-width: 320px;
+    max-width: 425px;
+    overflow-x: hidden;
+}
+main{
+    display: grid;/*grid permet une flexibilité plus précise grâce à la disposition des éléments*/
+    grid-template-columns: 1fr;/*les élements sont disposés sur une seul colonne*/
+    grid-template-rows: auto auto 1fr; /*header et img prennent la place qu'il leur faut et containerConnexion prend l'espace restant*/
+    min-height: 100vh; /*prend toute la hauteur de l'écran*/
+    min-width: 0;/*empeche les élements de dépasser du conteneur*/
+}
+#contanerConnexion{
+    display: grid;
+    grid-area: contanerConnexion;
+    justify-content: center;
+    align-items: center;
+}
+header{
+    display: grid;
+    grid-area: header;
+    justify-content: center;
+    align-items: center;
+    background-color: #160745;
+    border-bottom: 1px solid #ccc;
+}
+header h1{
+    text-align: center;
+    margin-top: 20px;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+}

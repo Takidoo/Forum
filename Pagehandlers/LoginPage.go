@@ -1,4 +1,4 @@
-package PageHandlers
+package Pagehandlers
 
 import (
 	"html/template"
