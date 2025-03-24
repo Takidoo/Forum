@@ -15,5 +15,6 @@ func main() {
 	http.HandleFunc("/login", API.Login)
 	http.HandleFunc("/FetchThreadPosts", API.FetchThreadPosts)
 	http.HandleFunc("/GetUserInfo", API.GetUserInfo)
+	http.HandleFunc("/CreateThread", API.CreateThread)
 	http.ListenAndServe(":80", nil)
 }
