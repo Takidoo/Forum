@@ -13,6 +13,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	if username == "" || password == "" {
 		http.Error(w, "Invalid Agrs", http.StatusBadRequest)
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	var count int

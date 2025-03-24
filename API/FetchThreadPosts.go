@@ -11,7 +11,7 @@ import (
 type Post struct {
 	PostID   int    `json:"post_id"`
 	ThreadID int    `json:"thread_id"`
-	UserID   int    `json:"user_id"`
+	Owner    int    `json:"owner"`
 	Content  string `json:"content"`
 	Date     string `json:"created_at"`
 }
@@ -26,7 +26,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ?`, threadID)
+	rows, err := Database.DB.Query(`SELECT id, thread_id, owner, content, created_at FROM posts WHERE thread_id = ?`, threadID)
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des messages", http.StatusInternalServerError)
 		return
@@ -39,7 +39,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 	var posts []Post
 	for rows.Next() {
 		var post Post
-		if err := rows.Scan(&post.PostID, &post.ThreadID, &post.UserID, &post.Content, &post.Date); err != nil {
+		if err := rows.Scan(&post.PostID, &post.ThreadID, &post.Owner, &post.Content, &post.Date); err != nil {
 			http.Error(w, "Erreur lors de la lecture des données", http.StatusInternalServerError)
 			return
 		}

@@ -44,10 +44,6 @@ func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 	}
 }
 
-func GetUserInfo(w http.ResponseWriter, r *http.Request, token string) {
-
-}
-
 func TheadExist(thread_id string) bool {
 	var count int
 	err := DB.QueryRow("SELECT COUNT(*) FROM threads WHERE id = ?", thread_id).Scan(&count)
@@ -63,12 +59,13 @@ func CreateTables() {
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
+			register TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             token TEXT UNIQUE
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			title TEXT NOT NULL,
-			user_id INTEGER NOT NULL,
+			owner INTEGER NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 		);`,
