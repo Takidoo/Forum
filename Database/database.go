@@ -28,7 +28,7 @@ func ConnectDB() {
 func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
-		http.Error(w, "Token manquant", http.StatusUnauthorized)
+		http.Error(w, "Token Needed", http.StatusUnauthorized)
 		return false
 	}
 	var count int
@@ -39,7 +39,7 @@ func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 	if count > 0 {
 		return true
 	} else {
-		http.Error(w, "Utilisateur invalide", http.StatusBadRequest)
+		http.Error(w, "Invalid Session ID", http.StatusBadRequest)
 		return false
 	}
 }
