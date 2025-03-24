@@ -18,6 +18,7 @@ func main() {
 	http.HandleFunc("/FetchThreadPosts", API.FetchThreadPosts)
 	http.HandleFunc("/UserInfo", API.UserInfo)
 	http.HandleFunc("/CreateThread", API.CreateThread)
+	http.HandleFunc("/CreatePost", API.CreatePost)
 
 	// Pages
 	http.HandleFunc("/", PageHandlers.LoginPage)
