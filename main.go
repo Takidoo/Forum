@@ -8,13 +8,19 @@ import (
 )
 
 func main() {
+	// Prérequis
 	Database.ConnectDB()
-	Database.CreatePost(1, 1, "Salut")
 	http.Handle("/Ressources/", http.StripPrefix("/Ressources/", http.FileServer(http.Dir("./Ressources"))))
-	http.HandleFunc("/", PageHandlers.LoginPage)
+
+	// API
 	http.HandleFunc("/login", API.Login)
 	http.HandleFunc("/FetchThreadPosts", API.FetchThreadPosts)
 	http.HandleFunc("/GetUserInfo", API.GetUserInfo)
 	http.HandleFunc("/CreateThread", API.CreateThread)
+
+	// Pages
+	http.HandleFunc("/", PageHandlers.LoginPage)
+
+	// Démarage du serveur
 	http.ListenAndServe(":80", nil)
 }
