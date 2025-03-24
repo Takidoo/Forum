@@ -19,7 +19,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	checkQuery := `SELECT COUNT(1) FROM users WHERE username = ?;`
 	err := Database.DB.QueryRow(checkQuery, username).Scan(&count)
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]string{"message": "Can't verify if user exist"})
+		json.NewEncoder(w).Encode(map[string]string{"message": "Can't create user"})
 		return
 	}
 
