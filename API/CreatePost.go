@@ -19,7 +19,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	cookie, _ := r.Cookie("session_id")
 	var user User
-	resp, _ := http.Get("http://127.0.0.1/GetUserInfo?session=" + cookie.Value)
+	resp, _ := http.Get("http://127.0.0.1/UserInfo?session=" + cookie.Value)
 	json.NewDecoder(resp.Body).Decode(&user)
 	_, qerr := Database.DB.Exec(`INSERT INTO posts (thread_id, user_id, content) VALUES (?, ?, ?)`, thread_id, user.ID, message)
 	if qerr != nil {
