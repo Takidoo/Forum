@@ -2,10 +2,7 @@ package API
 
 import (
 	"Forum/Database"
-	"database/sql"
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -16,35 +13,22 @@ type User struct {
 
 func UserInfo(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		print("Vision")
 		http.Error(w, "Méthode invalide", http.StatusMethodNotAllowed)
 		return
 	}
 
 	sessionID := r.URL.Query().Get("session")
 	if sessionID == "" {
-		print("Force")
 		http.Error(w, "Invalid session ID", http.StatusBadRequest)
 		return
 	}
-
-	query := `SELECT id, username FROM users WHERE token = ?`
-	row := Database.DB.QueryRow(query, sessionID)
-
 	var user User
-	err := row.Scan(&user.ID, &user.Username)
+	err := Database.DB.QueryRow("SELECT user_id FROM sessions WHERE token = ?", sessionID).Scan(&user.ID)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			print("Y'a pas")
-			http.Error(w, "User not found", http.StatusNotFound)
-			return
-		}
-		http.Error(w, "Database error", http.StatusInternalServerError)
-		log.Println("Erreur SQL:", err)
+		http.Error(w, "Invalid Session ID", http.StatusBadRequest)
 		return
 	}
-
-	fmt.Println("User trouvé:", user.ID, user.Username)
+	_ = Database.DB.QueryRow("SELECT username FROM users WHERE id = ?", user.ID).Scan(&user.Username)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

@@ -71,8 +71,8 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	}
 
 	token = Database.GenerateToken()
-	updateQuery := "UPDATE users SET token = ? WHERE id = ?"
-	_, err = Database.DB.Exec(updateQuery, token, userID)
+	query = "INSERT INTO sessions (token, user_id) VALUES (?,?)"
+	_, err = Database.DB.Exec(query, token, userID)
 	if err != nil {
 		return false, err
 	}
