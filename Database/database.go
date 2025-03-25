@@ -55,7 +55,7 @@ func CreateTables() {
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
 			register TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            token TEXT UNIQUE
+            token TEXT UNIQUE,
 			account_disabled BOOLEAN DEFAULT false
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
@@ -63,7 +63,7 @@ func CreateTables() {
 			title TEXT NOT NULL,
 			user_id INTEGER NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			visible BOOLEAN DEFAULT true
+			visible BOOLEAN DEFAULT true,
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 		);`,
 		`CREATE TABLE IF NOT EXISTS posts (
@@ -72,7 +72,7 @@ func CreateTables() {
 			user_id INTEGER NOT NULL,
 			content TEXT NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			visible BOOLEAN DEFAULT true
+			visible BOOLEAN DEFAULT true,
 			FOREIGN KEY(thread_id) REFERENCES threads(id) ON DELETE CASCADE,
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         );`,
