@@ -32,4 +32,5 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Impossible de créer le thread", http.StatusInternalServerError)
 		return
 	}
+	json.NewEncoder(w).Encode(map[string]string{"message": "Success"})
 }

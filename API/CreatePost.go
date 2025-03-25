@@ -18,8 +18,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if Database.CheckIfThreadExist(thread_id) {
-		http.Error(w, "Thread already exist", http.StatusBadRequest)
+	if !Database.CheckIfThreadExist(thread_id) {
+		http.Error(w, "Thread doesn't exist", http.StatusBadRequest)
 		return
 	}
 
@@ -32,5 +32,5 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Cannot create post", http.StatusInternalServerError)
 		return
 	}
-
+	json.NewEncoder(w).Encode(map[string]string{"message": "Success"})
 }

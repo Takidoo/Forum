@@ -20,13 +20,13 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 	if !Database.MiddlewareAuth(w, r) {
 		return
 	}
-	threadID, err := strconv.Atoi(r.FormValue("thread_id"))
+	_, err := strconv.Atoi(r.FormValue("thread_id"))
 	if err != nil {
 		http.Error(w, "ID du thread invalide", http.StatusBadRequest)
 		return
 	}
 
-	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ?`, threadID)
+	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ?`, r.FormValue("thread_id"))
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des messages", http.StatusInternalServerError)
 		return
