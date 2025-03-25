@@ -6,10 +6,37 @@
 </head>
 <body>
     <form action="/FetchThreadPosts" method="POST">
-        <label for="Thread id">Nom d'utilisateur :</label>
+        <label for="Thread id">Thread Fetch</label>
         <input type="text" id="username" name="thread_id">
         <br>
-        <button type="submit">Se connecter</button>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/login" method="POST">
+        <label for="Login">Login</label>
+        <input type="text" id="username" name="username">
+        <input type="text" id="mdp" name="password">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/register" method="POST">
+        <label for="Login">Register</label>
+        <input type="text" id="username1" name="username">
+        <input type="text" id="mdp1" name="password">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/CreateThread" method="POST">
+        <label for="Login">Register</label>
+        <input type="text" id="title" name="title">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/CreatePost" method="POST">
+        <label for="Login">Register</label>
+        <input type="text" id="post" name="thread_id">
+        <input type="text" id="postmsg" name="message">
+        <br>
+        <button type="submit">GO</button>
     </form>
 </body>
 </html>

@@ -15,6 +15,12 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	message := r.FormValue("message")
 	if message == "" || thread_id == "" {
 		http.Error(w, "Invalid Args", http.StatusBadRequest)
+		return
+	}
+
+	if Database.CheckIfThreadExist(thread_id) {
+		http.Error(w, "Thread already exist", http.StatusBadRequest)
+		return
 	}
 
 	cookie, _ := r.Cookie("session_id")

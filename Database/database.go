@@ -106,6 +106,19 @@ func CheckUserPassword(username, password string) bool {
 	return true
 }
 
+func CheckIfThreadExist(thread_id string) bool {
+	var title string
+	query := `SELECT title FROM threads WHERE id = ? LIMIT 1`
+	err := DB.QueryRow(query, thread_id).Scan(&title)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false
+		}
+		return false
+	}
+	return true
+}
+
 func GenerateToken() string {
 	bytes := make([]byte, 32)
 	_, err := rand.Read(bytes)
