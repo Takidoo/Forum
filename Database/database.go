@@ -33,14 +33,17 @@ func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 	}
 	var count int
 	var account_disabled bool
-	err = DB.QueryRow("SELECT COUNT(*), account_disabled FROM users WHERE token = ?", cookie.Value).Scan(&count, &account_disabled)
+	err = DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", cookie.Value).Scan(&count)
 	if err != nil {
-		return false
-	} else if account_disabled {
-		http.Error(w, "Account is disabled", http.StatusUnauthorized)
+		print(err)
 		return false
 	}
 	if count > 0 {
+		_ = DB.QueryRow("SELECT account_disabled FROM users WHERE token = ?", cookie.Value).Scan(&account_disabled)
+		if account_disabled {
+			http.Error(w, "Account is disabled", http.StatusUnauthorized)
+			return false
+		}
 		return true
 	} else {
 		http.Error(w, "Invalid Session ID", http.StatusBadRequest)

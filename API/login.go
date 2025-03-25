@@ -56,7 +56,7 @@ func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	var storedPassword, token string
 	var userID int
 
-	query := "SELECT id, password FROM users WHERE username = ?"
+	query := "SELECT id, password FROM users WHERE username = ? AND account_disabled=false"
 	err := Database.DB.QueryRow(query, username).Scan(&userID, &storedPassword)
 	if err != nil {
 		if err == sql.ErrNoRows {

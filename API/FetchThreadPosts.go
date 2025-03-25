@@ -26,7 +26,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ?`, r.FormValue("thread_id"))
+	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ? AND visible=true`, r.FormValue("thread_id"))
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des messages", http.StatusInternalServerError)
 		return
