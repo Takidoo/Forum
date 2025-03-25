@@ -26,7 +26,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := Database.DB.Query(`SELECT id, thread_id, owner, content, created_at FROM posts WHERE thread_id = ?`, threadID)
+	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ?`, threadID)
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des messages", http.StatusInternalServerError)
 		return
@@ -35,7 +35,6 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Messages récupérés avec succès")
 
-	// Lire les résultats et stocker dans un slice
 	var posts []Post
 	for rows.Next() {
 		var post Post

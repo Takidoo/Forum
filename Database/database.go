@@ -32,8 +32,12 @@ func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 		return false
 	}
 	var count int
-	err = DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", cookie.Value).Scan(&count)
+	var account_disabled bool
+	err = DB.QueryRow("SELECT COUNT(*), account_disabled FROM users WHERE token = ?", cookie.Value).Scan(&count, &account_disabled)
 	if err != nil {
+		return false
+	} else if account_disabled {
+		http.Error(w, "Account is disabled", http.StatusUnauthorized)
 		return false
 	}
 	if count > 0 {
@@ -44,15 +48,6 @@ func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
 	}
 }
 
-func TheadExist(thread_id string) bool {
-	var count int
-	err := DB.QueryRow("SELECT COUNT(*) FROM threads WHERE id = ?", thread_id).Scan(&count)
-	if err != nil {
-		return false
-	}
-	return count > 0
-}
-
 func CreateTables() {
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS users (
@@ -61,12 +56,14 @@ func CreateTables() {
 			password TEXT NOT NULL,
 			register TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             token TEXT UNIQUE
+			account_disabled BOOLEAN DEFAULT false
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			title TEXT NOT NULL,
-			owner INTEGER NOT NULL,
+			user_id INTEGER NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			visible BOOLEAN DEFAULT true
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 		);`,
 		`CREATE TABLE IF NOT EXISTS posts (
@@ -75,6 +72,7 @@ func CreateTables() {
 			user_id INTEGER NOT NULL,
 			content TEXT NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			visible BOOLEAN DEFAULT true
 			FOREIGN KEY(thread_id) REFERENCES threads(id) ON DELETE CASCADE,
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         );`,
@@ -122,16 +120,6 @@ func CloseDB() {
 		DB.Close()
 		fmt.Println("Connexion à la base de données fermée")
 	}
-}
-
-func CreatePost(threadID, userID int, content string) error {
-	query := `INSERT INTO posts (thread_id, user_id, content) VALUES (?, ?, ?)`
-	_, err := DB.Exec(query, threadID, userID, content)
-	if err != nil {
-		return err
-	}
-	fmt.Println("Post créé avec succès !")
-	return nil
 }
 
 func EditPost(postID, userID int, newContent string) error {
