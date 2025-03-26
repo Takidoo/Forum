@@ -84,6 +84,9 @@ func CreateTables() {
 		`
 			CREATE UNIQUE INDEX IF NOT EXISTS idx_token ON sessions(token);
 		`,
+		`
+			CREATE UNIQUE INDEX IF NOT EXISTS idx_user ON users(username);
+		`,
 	}
 
 	for _, query := range queries {
