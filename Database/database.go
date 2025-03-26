@@ -25,28 +25,25 @@ func ConnectDB() {
 	CreateTables()
 }
 
-func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
+func MiddlewareAuth(w http.ResponseWriter, r *http.Request) (bool, error) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
-		http.Error(w, "Token Needed", http.StatusUnauthorized)
-		return false
+		return false, fmt.Errorf("Token Needed")
 	}
 	var user_id int
 	var account_disabled bool
 	err = DB.QueryRow("SELECT user_id FROM sessions WHERE token = ?", cookie.Value).Scan(&user_id)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			http.Error(w, "Invalid Session ID", http.StatusBadRequest)
-			return false
+			return false, fmt.Errorf("Invalid ID")
 		}
-		return false
+		return false, fmt.Errorf("Invalid ID")
 	}
 	_ = DB.QueryRow("SELECT account_disabled FROM users WHERE id = ?", user_id).Scan(&account_disabled)
 	if account_disabled {
-		http.Error(w, "Account is disabled, please contact support", http.StatusUnauthorized)
-		return false
+		return false, fmt.Errorf("Account is disabled, please contact support")
 	}
-	return true
+	return true, nil
 }
 
 func CreateTables() {
