@@ -53,6 +53,7 @@ func CreateTables() {
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
 			register TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			role INTEGER DEFAULT 0,
 			account_disabled BOOLEAN DEFAULT false
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
