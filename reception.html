@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/resources/reception.css">
+</head>
+<body>
+    <div class="research">
+        <!-- Icône de navigation -->
+        <img class="navigation" src="/resources/pictures/navigation.png" alt="navigation" onclick="window.location.href = '/navigation';">
+        
+        <!-- Barre de recherche -->
+        <form action="/research" method="POST">
+            <input class="reshearch1" name="title" id="title" placeholder="Search..." onclick="window.location.href = '/research';">
+        </form>
+        
+        <!-- Photo de profil -->
+        <img class="photo_profil" src="/resources/pictures/logo.png" alt="photo de profil" onclick="window.location.href = '/profil';">
+    </div>
+
+    <div class="themes"> <!--lien pour tout voir thèmes-->
+        <div class="section">
+            <h4>Themes</h4>
+            <a href="/all-themes" class="view-all">View All</a>
+        </div>
+        <!--Différent thèmes abordé-->
+        <ul>
+            <li>Theme 1</li>
+            <li>Theme 2</li>
+            <li>Theme 3</li>
+            <li>Theme 4</li>
+            <li>Theme 5</li>
+            <li>Theme 6</li>
+        </ul>
+    </div>
+
+    <div class="recommendation"> <!--lien pour tout voir recommandation-->
+        <div class="section">
+            <h4>Recommendation</h4>
+            <a href="/all-recommendations" class="view-all">View All</a>
+        </div>
+        <!--Recommandation de discution max: 6 et défilement-->
+        <ul>
+            <% posts.slice(0, 6).forEach(post => { %>
+                <li>
+                    <a href="/post/<%= post.id %>"><%= post.title %></a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+    <div class="popular"> <!--lien pour tout voir populaire-->
+        <div class="section">
+            <h4>Popular</h4>
+            <a href="/all-popular" class="view-all">View All</a>
+        </div>
+        <!--Discussion les plus populaire max: 6 et défilement-->
+        <ul>
+            <% popularPosts.slice(0, 6).forEach(post => { %>
+                <li>
+                    <a href="/post/<%= post.id %>"><%= post.title %></a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+    <% if (likes && likes.length > 0) { %>
+        <div class="like">
+            <div class="section">
+                <h4>Liked Discussions</h4>
+                <a href="/all-likes" class="view-all">View All</a>
+            </div>
+            <ul>
+                <% likes.slice(0, 6).forEach(like => { %>
+                    <li>
+                        <a href="/post/<%= like.id %>"><%= like.title %></a>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <div class="new"> <!--lien pour tout voir new-->
+        <div class="section">
+            <a href="/all-new" class="view-all">View All</a>
+        </div>
+        
+        <!--Discussion les plus récentes max: 6 et défilement-->
+        <ul>
+            <% if (newPosts && newPosts.length > 0) { %>
+                <% newPosts.slice(0, 6).forEach(post => { %>
+                    <li>
+                        <a href="/post/<%= post.id %>"><%= post.title %></a>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li>No new discussions available.</li>
+            <% } %>
+        </ul>
+    </div>
+
+</body>
+</html>
