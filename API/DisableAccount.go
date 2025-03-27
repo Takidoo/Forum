@@ -15,7 +15,8 @@ func DisableAccount(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
-	disable := r.FormValue("disabled") == "1"
+	disable := r.FormValue("disabled") == "0"
+	print(r.FormValue("disabled"))
 	_, err := Database.DB.Exec("UPDATE users SET account_disabled=? WHERE id=?", disable, r.FormValue("UserID"))
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]string{"error": "Can't set role to user"})
