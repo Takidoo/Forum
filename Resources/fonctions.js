@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         // The Go handler returns either {"success": "..."} or {"erreur": "..."}
         if (status === 200 && body.success) {
             // Show success message (popup or alert)
-            alert("Succès : " + body.success);
+            window.location.href = "/home";
             // Optionally redirect somewhere:
             // window.location.href = "/someOtherPage";
         } else {
