@@ -1,0 +1,162 @@
+@media (min-width: 48em) {
+    main {
+      grid-template-areas: 
+        "header header"
+        "picture section";
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: auto 1fr;
+    }
+    #logo{
+        max-height: 50vh;
+    }
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #000832;
+    width: 100%;
+    max-width: 90em;
+    margin: 0 auto;
+}
+main{
+    display: grid;/*grid permet une flexibilité plus précise grâce à la disposition des éléments*/
+    grid-template-areas: 
+        "header"
+        "image"
+        "section";
+    grid-template-rows: auto auto auto; 
+    grid-template-columns: 1fr;
+    min-height: 100vh; /*prend toute la hauteur de l'écran*/
+    padding: 1rem;
+    gap: 1.5rem;
+}
+header{
+    display: grid;
+    grid-area: header;
+    justify-content: center;
+    align-items: center;
+    background-color: #160745;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+}
+header h1{
+    text-align: center;
+    font-size: clamp(2rem, 6vw, 4rem);/*si la police du navigateur est à 16px alors le min est à 24px, le max est à 48px et la taille par défaut est de 5% de la hauteur de l'écran*/
+    line-height: 1.2;/*la ligne à une hauteur de 120% de la police*/
+    color:#f1f1f1;
+}
+#image{
+    display: flex;
+    grid-area: image;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#logo{
+    height: auto;/*la hauteur est adaptative*/
+    width: 70%;/*la largeur est de 70% de la largeur de son conteneur*/
+    max-width: 300px;
+    margin: 0 auto;
+}
+#logo img{
+    display: block;
+    width: 100%;
+    max-height: 40vh; /*limite la hauteur de l'image sur mobile*/
+    object-fit: contain;
+}
+#profilPicture{
+    display: none;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+#profilPicture label{
+    display: block;
+    color: #f1f1f1;
+    margin-bottom: 10px;
+}
+#profilPicture input[type="file"]{
+    margin-bottom: 10px;
+    color: #f1f1f1;
+}
+#preview{
+    display: none;
+    width: 40%;
+    max-width: 200px;
+    margin: 10px auto;
+    object-fit: cover;
+    border: solid 1px #f1f1f1;
+}
+section{
+    grid-area: section;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+section h2{
+    text-align: center;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    color: #561efe;
+    margin-bottom: 1rem;
+}
+.form{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 350px;
+    gap: 1rem;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #f1f1f1 !important;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+form{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+    width: 100%;
+}
+input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #f1f1f1 !important;
+    background-color: #160745;
+}
+button{
+    padding:0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    color: #f1f1f1 !important;
+    background-color: #160745 !important;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button:hover{
+    background-color: #561efe !important;
+}
+.backButton{
+    display: block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #f1f1f1;
+    color:#000832;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.backButton:hover{
+    background-color: #3498db;
+    color: white;
+}
