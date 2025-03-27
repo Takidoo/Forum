@@ -9,6 +9,7 @@ import (
 type User struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
+	Role     string `json:"role"`
 }
 
 func UserInfo(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,7 @@ func UserInfo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid Session ID", http.StatusBadRequest)
 		return
 	}
-	_ = Database.DB.QueryRow("SELECT username FROM users WHERE id = ?", user.ID).Scan(&user.Username)
+	_ = Database.DB.QueryRow("SELECT username, role FROM users WHERE id = ?", user.ID).Scan(&user.Username, &user.Role)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
