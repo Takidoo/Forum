@@ -9,7 +9,7 @@ import (
 type User struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
-	Role     string `json:"role"`
+	Role     int    `json:"role"`
 }
 
 func UserInfo(w http.ResponseWriter, r *http.Request) {

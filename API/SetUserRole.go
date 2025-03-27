@@ -4,6 +4,7 @@ import (
 	"Forum/Database"
 	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 func SetUserRole(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,9 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 	var user User
 	resp, _ := http.Get("http://127.0.0.1/UserInfo?session=" + cookie.Value)
 	json.NewDecoder(resp.Body).Decode(&user)
-	if r.FormValue("RoleID") > user.Role {
+	print(user.Role)
+	roleInt, converr := strconv.Atoi(r.FormValue("RoleID"))
+	if roleInt > user.Role && converr != nil {
 		http.Error(w, "Vous ne pouvez pas donner des permissions au dessus des votres", http.StatusUnauthorized)
 		return
 	}
