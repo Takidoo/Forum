@@ -32,7 +32,7 @@
             </div>
             <div id="connexion" class="form">
                 <h2>Login</h2>
-                <form action="/api/login" method="POST">
+                <form id="loginForm">
                     <label for="usernameConnexion"></label>
                     <input type="text" id="usernameConnexion" name="username" placeholder="Username" required>
                     <label for="passwordConnexion"></label>
@@ -52,5 +52,9 @@
             </div>
         </section>
     </main>
+    <div id="popup" style="display: none;">
+        <span id="popupMessage"></span>
+        <button onclick="closePopup()">OK</button>
+    </div>
 </body>
 </html>
