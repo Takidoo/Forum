@@ -18,7 +18,7 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 	}
 	cookie, _ := r.Cookie("session_id")
 	var user User
-	resp, _ := http.Get("http://127.0.0.1/UserInfo?session=" + cookie.Value)
+	resp, _ := http.Get("http://127.0.0.1/api/UserInfo?session=" + cookie.Value)
 	json.NewDecoder(resp.Body).Decode(&user)
 	print(user.Role)
 	roleInt, converr := strconv.Atoi(r.FormValue("RoleID"))

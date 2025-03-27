@@ -21,7 +21,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cookie, _ := r.Cookie("session_id")
-	resp, err := http.Get("http://127.0.0.1/UserInfo?session=" + cookie.Value)
+	resp, err := http.Get("http://127.0.0.1/api/UserInfo?session=" + cookie.Value)
 	if err != nil {
 		http.Error(w, "Impossible de récupérer les infos de l'utilisateur", http.StatusInternalServerError)
 		return
