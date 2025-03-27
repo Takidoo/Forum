@@ -87,4 +87,56 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         }else{
             console.error("formulaire d'inscription non trouvé"); //on affiche un message d'erreur sur la console si la div du formulaire d'inscription n'est pas trouvé
         }
+
+    // Get the form by its ID
+    const loginForm = document.getElementById('loginForm');
+
+    // Only if the form exists (it should), add a 'submit' listener
+    if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop the page from reloading
+
+        // Collect the form data
+        const formData = new FormData(loginForm);
+
+        // Send it to the Go handler using fetch
+        fetch('/api/login', {
+        method: 'POST',
+        body: formData
+        })
+        .then(response => {
+        // Even if the response is 401 or 400, fetch won't throw an error,
+        // so we can still read JSON. But let's handle OK vs. error below:
+        return response.json().then(data => ({ status: response.status, body: data }));
+        })
+        .then(({ status, body }) => {
+        // The Go handler returns either {"success": "..."} or {"erreur": "..."}
+        if (status === 200 && body.success) {
+            // Show success message (popup or alert)
+            alert("Succès : " + body.success);
+            // Optionally redirect somewhere:
+            // window.location.href = "/someOtherPage";
+        } else {
+            // Show error popup
+            // body.erreur might be "Identifiants invalides" or some other message
+            alert("Erreur : " + body.erreur);
+        }
+        })
+        .catch(error => {
+        console.error("Fetch error:", error);
+        alert("Une erreur inattendue est survenue.");
+        });
+    });
+    }
 });
+
+function showPopup(message) {
+    const popup = document.getElementById("popup");
+    const messageElem = document.getElementById("popupMessage");
+    messageElem.textContent = message;
+    popup.style.display = "block";
+  }
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
