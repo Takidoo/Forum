@@ -19,6 +19,7 @@ func main() {
 	http.HandleFunc("/api/api/UserInfo", API.UserInfo)
 	http.HandleFunc("/api/CreateThread", API.CreateThread)
 	http.HandleFunc("/api/CreatePost", API.CreatePost)
+	http.HandleFunc("/api/SetUserRole", API.SetUserRole)
 
 	// Pages
 	http.HandleFunc("/", PageHandlers.TestPageHandler)

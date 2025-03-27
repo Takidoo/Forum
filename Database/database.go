@@ -138,13 +138,15 @@ func UserIsAdmin(w http.ResponseWriter, r *http.Request) bool {
 	}
 	session, _ := r.Cookie("session_id")
 	var userID int
-	err := DB.QueryRow("SELECT user_id FROM sessions WHERE token=?", session).Scan(&userID)
+	err := DB.QueryRow("SELECT user_id FROM sessions WHERE token=?", session.Value).Scan(&userID)
 	if err != nil {
+		print("user id err")
 		return false
 	}
 	var userRole int
 	err = DB.QueryRow("SELECT role FROM users WHERE id=?", userID).Scan(&userRole)
 	if err != nil {
+		print("Role check err")
 		return false
 	}
 	if userRole != 2 {
