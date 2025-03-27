@@ -7,12 +7,13 @@
 </head>
 <body>
     <form action="/api/SetUserRole">
-        <input type="text" placeholder="User ID">
-        <select name="RoleID" id="filterBox" disabled>                  <!--menu déroulant pour définir le type de recherche-->
+        <input type="text" placeholder="User ID" name="UserID">
+        <select name="RoleID" id="RoleIdBox">                  <!--menu déroulant pour définir le type de recherche-->
             <!--critères de recherche-->
             <option value="1">User</option>
             <option value="2">Moderator</option>
         </select>
+        <button type="submit">Set</button>
     </form>
 </body>
 </html>

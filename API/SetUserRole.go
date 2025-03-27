@@ -11,7 +11,7 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
-	_, err := Database.DB.Exec("UPDATE users SET role WHERE id=?", r.FormValue("RoleID"))
+	_, err := Database.DB.Exec("UPDATE users SET role=? WHERE id=?", r.FormValue("RoleID"), r.FormValue("UserID"))
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]string{"error": "Can't set role to user"})
 	}
