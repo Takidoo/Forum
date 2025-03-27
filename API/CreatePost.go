@@ -7,7 +7,9 @@ import (
 )
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
-	if !Database.MiddlewareAuth(w, r) {
+	middleAuth, aerr := Database.MiddlewareAuth(w, r)
+	if !middleAuth {
+		http.Error(w, aerr.Error(), http.StatusUnauthorized)
 		return
 	}
 

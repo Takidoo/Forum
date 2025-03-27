@@ -17,7 +17,9 @@ type Post struct {
 }
 
 func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
-	if !Database.MiddlewareAuth(w, r) {
+	middleAuth, aerr := Database.MiddlewareAuth(w, r)
+	if !middleAuth {
+		http.Error(w, aerr.Error(), http.StatusUnauthorized)
 		return
 	}
 	_, err := strconv.Atoi(r.FormValue("thread_id"))

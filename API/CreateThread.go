@@ -15,7 +15,9 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Titre Invalide", http.StatusBadRequest)
 		return
 	}
-	if !Database.MiddlewareAuth(w, r) {
+	middleAuth, aerr := Database.MiddlewareAuth(w, r)
+	if !middleAuth {
+		http.Error(w, aerr.Error(), http.StatusUnauthorized)
 		return
 	}
 	cookie, _ := r.Cookie("session_id")

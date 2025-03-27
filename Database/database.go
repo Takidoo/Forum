@@ -25,30 +25,25 @@ func ConnectDB() {
 	CreateTables()
 }
 
-func MiddlewareAuth(w http.ResponseWriter, r *http.Request) bool {
+func MiddlewareAuth(w http.ResponseWriter, r *http.Request) (bool, error) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
-		http.Error(w, "Token Needed", http.StatusUnauthorized)
-		return false
+		return false, fmt.Errorf("Token Needed")
 	}
-	var count int
+	var user_id int
 	var account_disabled bool
-	err = DB.QueryRow("SELECT COUNT(*) FROM users WHERE token = ?", cookie.Value).Scan(&count)
+	err = DB.QueryRow("SELECT user_id FROM sessions WHERE token = ?", cookie.Value).Scan(&user_id)
 	if err != nil {
-		print(err)
-		return false
-	}
-	if count > 0 {
-		_ = DB.QueryRow("SELECT account_disabled FROM users WHERE token = ?", cookie.Value).Scan(&account_disabled)
-		if account_disabled {
-			http.Error(w, "Account is disabled", http.StatusUnauthorized)
-			return false
+		if err == sql.ErrNoRows {
+			return false, fmt.Errorf("Invalid ID")
 		}
-		return true
-	} else {
-		http.Error(w, "Invalid Session ID", http.StatusBadRequest)
-		return false
+		return false, fmt.Errorf("Invalid ID")
 	}
+	_ = DB.QueryRow("SELECT account_disabled FROM users WHERE id = ?", user_id).Scan(&account_disabled)
+	if account_disabled {
+		return false, fmt.Errorf("Account is disabled, please contact support")
+	}
+	return true, nil
 }
 
 func CreateTables() {
@@ -58,7 +53,6 @@ func CreateTables() {
             username TEXT UNIQUE NOT NULL,
 			password TEXT NOT NULL,
 			register TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            token TEXT UNIQUE,
 			account_disabled BOOLEAN DEFAULT false
 		);`,
 		`CREATE TABLE IF NOT EXISTS threads (
@@ -79,6 +73,20 @@ func CreateTables() {
 			FOREIGN KEY(thread_id) REFERENCES threads(id) ON DELETE CASCADE,
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         );`,
+		`
+		CREATE TABLE IF NOT EXISTS sessions (
+			token TEXT NOT NULL,
+			user_id INT NOT NULL,
+			PRIMARY KEY (token),
+			FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	);
+		`,
+		`
+			CREATE UNIQUE INDEX IF NOT EXISTS idx_token ON sessions(token);
+		`,
+		`
+			CREATE UNIQUE INDEX IF NOT EXISTS idx_user ON users(username);
+		`,
 	}
 
 	for _, query := range queries {

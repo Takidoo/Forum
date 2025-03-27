@@ -15,11 +15,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
 		return
 	}
-
-	err := r.ParseForm()
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Mauvaise requête"})
+	_, err := Database.MiddlewareAuth(w, r)
+	if err == nil {
+		http.Error(w, "Utilisateur déjà connecté", http.StatusBadRequest)
 		return
 	}
 
@@ -36,9 +34,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	success, err := LoginUser(username, password, w)
 	if err != nil {
-		fmt.Println("Erreur durant le login user:", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Erreur interne du serveur"})
+		json.NewEncoder(w).Encode(map[string]string{"erreur": err.Error()})
 		return
 	}
 
@@ -55,26 +52,30 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {
 	var storedPassword, token string
 	var userID int
+	var account_disabled bool
 
-	query := "SELECT id, password FROM users WHERE username = ? AND account_disabled=false"
-	err := Database.DB.QueryRow(query, username).Scan(&userID, &storedPassword)
+	query := "SELECT id, password, account_disabled FROM users WHERE username = ?"
+	err := Database.DB.QueryRow(query, username).Scan(&userID, &storedPassword, &account_disabled)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return false, nil
 		}
 		return false, err
 	}
+	if account_disabled {
+		return false, fmt.Errorf("Account is disabled, please contact support")
+	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
 	if err != nil {
-		return false, nil
+		return false, fmt.Errorf("Can't hash password")
 	}
 
 	token = Database.GenerateToken()
-	updateQuery := "UPDATE users SET token = ? WHERE id = ?"
-	_, err = Database.DB.Exec(updateQuery, token, userID)
+	query = "INSERT INTO sessions (token, user_id) VALUES (?,?)"
+	_, err = Database.DB.Exec(query, token, userID)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("Can't create session")
 	}
 	cookie := http.Cookie{
 		Name:     "session_id",
