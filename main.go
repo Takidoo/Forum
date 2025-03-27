@@ -22,6 +22,7 @@ func main() {
 
 	// Pages
 	http.HandleFunc("/", PageHandlers.TestPageHandler)
+	http.HandleFunc("/admin", PageHandlers.AdminPageHandler)
 	http.HandleFunc("/login", PageHandlers.LoginPageHandler)
 
 	// Démarage du serveur
