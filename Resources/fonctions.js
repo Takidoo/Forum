@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         const backButtonConnexion = document.createElement("button"); //crée un bouton
         backButtonConnexion.textContent = "Back"; //ajoute le texte "Back" au bouton
         backButtonConnexion.type = "button"; //ajoute le type button au bouton
-        backButton.classList.add("backButton"); //ajoute la classe backButton au bouton
+        backButtonConnexion.classList.add("backButton"); //ajoute la classe backButton au bouton
 
         //ajoute une écoute d'événement au clic sur le bouton retour
         backButtonConnexion.addEventListener("click", function(e) {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         const backButtonInscription = document.createElement("button"); //on crée un bouton
         backButtonInscription.textContent = "Back"; //on ajoute le texte "Back" au bouton
         backButtonInscription.type = "button"; //on ajoute le type button au bouton
-        backButton.classList.add("backButton"); //on ajoute la classe backButton au bouton
+        backButtonInscription.classList.add("backButton"); //on ajoute la classe backButton au bouton
 
         //on ajoute une écoute d'événement au clic sur le bouton retour
         backButtonInscription.addEventListener("click", function(e) {
