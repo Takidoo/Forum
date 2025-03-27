@@ -46,7 +46,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"message": "Connexion réussie avec succès"})
+	json.NewEncoder(w).Encode(map[string]string{"success": "Connexion réussie avec succès"})
 }
 
 func LoginUser(username, password string, w http.ResponseWriter) (bool, error) {

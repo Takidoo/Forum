@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Resources/login.css">
-    <script src="Resources/fonctions.js" defer></script>
+    <link rel="stylesheet" href="resources/login.css">
+    <script src="resources/fonctions.js" defer></script>
     <title>GlitchHavoc</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
 
         <div id="image">
             <div id="logo">
-                <img src="Resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
+                <img src="resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
             </div>
             <div id="profilPicture">
                 <label for="picture">Profil picture: </label>
@@ -26,7 +26,7 @@
 
         <section>
             <div id="initialButtons" class="form">
-                <h2>Reception</h2>
+                <h2>Authentication</h2>
                 <button id="goToConnexion" href="#connexion">Login</button>
                 <button id="goToInscription" href="#inscription">Register</button>
             </div>
@@ -34,9 +34,9 @@
                 <h2>Login</h2>
                 <form action="/login" method="POST">
                     <label for="usernameConnexion"></label>
-                    <input type="text" id="usernameConnexion" name="username" placeholder="Username" required>
+                    <input type="text" id="usernameConnexion" name="usernameConnexion" placeholder="Username" required>
                     <label for="passwordConnexion"></label>
-                    <input type="password" id="passwordConnexion" name="password" placeholder="Password" required>
+                    <input type="password" id="passwordConnexion" name="passwordConnexion" placeholder="Password" required>
                     <button type="submit">Submit</button>
                 </form>
             </div>
@@ -44,9 +44,9 @@
                 <h2>Register</h2>
                 <form action="/register" method="POST">
                     <label for="usernameInscription"></label>
-                    <input type="text" id="usernameInscription" name="username" placeholder="Username" required>
+                    <input type="text" id="usernameInscription" name="usernameInscription" placeholder="Username" required>
                     <label for="passwordInscription"></label>
-                    <input type="password" id="passwordInscription" name="password" placeholder="Password" required>
+                    <input type="password" id="passwordInscription" name="passwordInscription" placeholder="Password" required>
                     <button type="submit">Submit</button>
                 </form>
             </div>
