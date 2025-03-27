@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
     console.log("DOM chargé"); //affiche un message console pour vérifie que le contenu est bien chargé
     
     document.getElementById("initialButtons").style.display="flex"; //on force l'affichage des boutons initiaux
-    /* //appel de la fonction qui créer le bouton retour 
-    addBackButton(); //on ajoute le bouton retour à chaque formulaire */
 
     //on ajoute une écoute d'événement au clic sur le bouton Login
     document.getElementById("goToConnexion").addEventListener("click", function(e) {
@@ -89,31 +87,4 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         }else{
             console.error("formulaire d'inscription non trouvé"); //on affiche un message d'erreur sur la console si la div du formulaire d'inscription n'est pas trouvé
         }
-
-    /* //création de boutons retour au clic sur le bouton Submit du formulaire de connexion et d'inscription
-    function addBackButton() {
-    const forms = document.querySelectorAll(".form:not(#initialButtons)"); //recupère tous les formulaires sauf celui des boutons initiaux
-        
-    forms.forEach(form => { //on parcourt chaque formulaire et on vérifie si un bouton retour est déjà présent
-        if (!form.querySelector("backButton")) { //on vérifie si le bouton retour existe déja     
-        const backButton = document.createElement("button"); //crée un bouton
-                backButton.textContent = "Back"; //ajoute le texte "Back" au bouton
-                backButton.classList.add("backButton"); //ajoute la classe backButton au bouton
-
-                backButton.addEventListener("click", function() { //ajoute une écoute d'événement au clic sur le bouton
-                    e.preventDefault(); //on empêche le rechargement de la page
-                    console.log("click sur le bouton retour"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
-                    form.style.display="none"; //on rend le formulaire invisible
-                    document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux visibles
-
-                    if (form.id === "inscription") { //si le formulaire est celui d'inscription
-                        document.getElementById("logo").style.display="block"; //on rend le logo visible
-                        document.getElementById("profilPicture").style.display="none"; //on cache la div d'insertion de photo de profil
-                    }
-                });
-
-                form.appendChild(backButton); //ajoute le bouton au formulaire
-        }
-    });
-    }; */
 });
