@@ -21,8 +21,8 @@ func main() {
 	http.HandleFunc("/api/CreatePost", API.CreatePost)
 
 	// Pages
-	http.HandleFunc("/", PageHandlers.LoginPage)
-	http.HandleFunc("/login", PageHandlers.LoginPage)
+	http.HandleFunc("/", PageHandlers.TestPageHandler)
+	http.HandleFunc("/login", PageHandlers.LoginPageHandler)
 
 	// Démarage du serveur
 	http.ListenAndServe(":80", nil)
