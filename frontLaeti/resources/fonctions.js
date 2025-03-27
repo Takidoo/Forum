@@ -1,19 +1,19 @@
-// on attend que le contenu DOM de la page soit chargé
+/*ATTENTE DU CHARGEMENT INTEGRALE DE LA PAGE*/
 document.addEventListener("DOMContentLoaded", function() { //on ajoute une écoute d'événement au chargement de la page
     console.log("DOM chargé"); //affiche un message console pour vérifie que le contenu est bien chargé
     
     document.getElementById("initialButtons").style.display="flex"; //on force l'affichage des boutons initiaux
 
-    //on ajoute une écoute d'événement au clic sur le bouton Login
-    document.getElementById("goToConnexion").addEventListener("click", function(e) {
+    /*AFFICHAGE DYNAMIQUE AU CLIC DU BOUTON LOGIN*/
+    document.getElementById("goToConnexion").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Login
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton login"); //on affiche un message console pour vérifier que le clic fonctionne
         document.getElementById("initialButtons").style.display="none"; //cache les boutons initiaux à l'activation du bouton connexion
         document.getElementById("connexion").style.display="flex"; //rend la div connexion visible à l'activation du bouton connexion
     });
 
-    //on ajoute une écoute d'événement au clic sur le bouton Register
-    document.getElementById("goToInscription").addEventListener("click", function(e) {
+    /*AFFICHAGE DYNAMIQUE AU CLIC DU BOUTON REGISTER*/
+    document.getElementById("goToInscription").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Register
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton register"); //on affiche un message console pour vérifier que le clic fonctionne
         document.getElementById("initialButtons").style.display="none"; //rend les boutons invisibles à l'activation du bouton inscription
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         document.getElementById("inscription").style.display="flex"; //rend la div inscription visible
     });
 
-    //prévisualisation de l'image de profil
+    /*PREVISUALISATION DE L'IMAGE DE PROFIL*/
     document.getElementById("picture").addEventListener("change", function(event) { //affiche l'image sélectionnée dans la div preview à partir de l'input file
         const preview = document.getElementById("preview"); //recupère la div preview avec un id unique
         const file = event.target.files[0]; //recupère le fichier sélectionné à l'indice 1 dans le tableau files
@@ -37,7 +37,26 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         }
     });
 
-    //ajout de bouton back dans les div connexion et inscription
+    /*FONCTION QUI PERMET DE REINITIALISER LES FORMULAIRES ET LES IMAGES*/
+    function resetElements(){
+        //on réintialise le formulaire d'inscription
+        if (document.getElementById("inscription").querySelector("form")){
+            document.getElementById("inscription").querySelector("form").reset();
+        }
+        //on réintialise le formulaie de connexion
+        if (document.getElementById("connexion").querySelector("form")){
+            document.getElementById("connexion").querySelector("form").reset();
+        }
+        //on réinitialise l'image de profil
+        document.getElementById("preview").style.display="none"; //cache l'élément preview
+        document.getElementById("preview").src=""; //vide la source de l'image
+            if (document.getElementById("picture")){ //réinitialise le champ input de type file (l'image posté)
+                document.getElementById("picture").value="";
+            }
+    }
+
+
+    /*AJOUT DE BOUTONS BACK DANS LES DIV CONNEXION ET INSCRIPTION*/
     //selection des conteneurs des formulaires de connexion et d'inscription
     const connexionDiv = document.getElementById("connexion"); //recupère le formulaire de connexion
     const inscriptionDiv = document.getElementById("inscription"); //recupère le formulaire d'inscription
@@ -57,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
             console.log("click sur le bouton Back connexion"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             connexionDiv.style.display="none"; //on rend le formulaire invisible
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux visibles
+            resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
 
         //on ajoute le bouton au formulaire de connexion
@@ -77,9 +97,12 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         //on ajoute une écoute d'événement au clic sur le bouton retour
         backButtonInscription.addEventListener("click", function(e) {
             e.preventDefault(); //on empêche le rechargement de la page
-            console.log("click sur le bouton Back connexion"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
+            console.log("click sur le bouton Back inscription"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             inscriptionDiv.style.display="none"; //on rend le formulaire invisible
+            document.getElementById("profilPicture").style.display="none"; //on cache la section de photo de profil
+            document.getElementById("logo").style.display="bloc"; //on affiche le logo à la place de la photo de profil
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux sont visibles
+            resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
 
         //on ajoute le bouton au formulaire d'inscription
