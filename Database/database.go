@@ -131,6 +131,29 @@ func CheckIfThreadExist(thread_id string) bool {
 	return true
 }
 
+func UserIsAdmin(w http.ResponseWriter, r *http.Request) bool {
+	auth, _ := MiddlewareAuth(w, r)
+	if !auth {
+		return false
+	}
+	session, _ := r.Cookie("session_id")
+	var userID int
+	err := DB.QueryRow("SELECT user_id FROM sessions WHERE token=?", session).Scan(&userID)
+	if err != nil {
+		return false
+	}
+	var userRole int
+	err = DB.QueryRow("SELECT role FROM users WHERE id=?", userID).Scan(&userRole)
+	if err != nil {
+		return false
+	}
+	if userRole != 2 {
+		return false
+	}
+	return true
+
+}
+
 func GenerateToken() string {
 	bytes := make([]byte, 32)
 	_, err := rand.Read(bytes)

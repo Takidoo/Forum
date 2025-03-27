@@ -28,20 +28,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	if username == "" || password == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Nom d'utilisateur ou mot de passe manquant"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Nom d'utilisateur ou mot de passe manquant"})
 		return
 	}
 
 	success, err := LoginUser(username, password, w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": err.Error()})
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
 	}
 
 	if !success {
 		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Identifiants invalides"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Identifiants invalides"})
 		return
 	}
 
