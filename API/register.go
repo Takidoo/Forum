@@ -20,27 +20,27 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	checkQuery := `SELECT COUNT(1) FROM users WHERE username = ?;`
 	err := Database.DB.QueryRow(checkQuery, username).Scan(&count)
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]string{"message": "Can't create user"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Can't create user"})
 		return
 	}
 
 	if count > 0 {
-		json.NewEncoder(w).Encode(map[string]string{"message": "Username taken"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Username taken"})
 		return
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]string{"message": "Can't create user"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Can't create user"})
 		http.Error(w, "Can't create user", http.StatusInternalServerError)
 		return
 	}
 	query := `INSERT INTO users (username, password) VALUES (?, ?)`
 	_, err = Database.DB.Exec(query, username, string(hashedPassword))
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]string{"message": "Can't create user"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "Can't create user"})
 		http.Error(w, "Can't create user", http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(map[string]string{"message": "Success"})
+	json.NewEncoder(w).Encode(map[string]string{"success": "Success"})
 }
