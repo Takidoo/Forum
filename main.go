@@ -22,6 +22,7 @@ func main() {
 
 	// Pages
 	http.HandleFunc("/", PageHandlers.LoginPage)
+	http.HandleFunc("/login", PageHandlers.LoginPage)
 
 	// Démarage du serveur
 	http.ListenAndServe(":80", nil)
