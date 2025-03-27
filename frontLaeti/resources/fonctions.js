@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton login"); //on affiche un message console pour vérifier que le clic fonctionne
         document.getElementById("initialButtons").style.display="none"; //cache les boutons initiaux à l'activation du bouton connexion
+        document.getElementById("logo").style.display="block"; //affiche le logo
         document.getElementById("connexion").style.display="flex"; //rend la div connexion visible à l'activation du bouton connexion
     });
 
@@ -75,6 +76,8 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
             e.preventDefault(); //on empêche le rechargement de la page
             console.log("click sur le bouton Back connexion"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             connexionDiv.style.display="none"; //on rend le formulaire invisible
+            document.getElementById("logo").style.display="block"; //affiche à nouveau le logo
+            document.getElementById("profilPicture").style.display="none"; //fait bien disparaitre la section avec la photo de profil
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux visibles
             resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
@@ -100,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
             console.log("click sur le bouton Back inscription"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             inscriptionDiv.style.display="none"; //on rend le formulaire invisible
             document.getElementById("profilPicture").style.display="none"; //on cache la section de photo de profil
-            document.getElementById("logo").style.display="bloc"; //on affiche le logo à la place de la photo de profil
+            document.getElementById("logo").style.display="block"; //on affiche le logo à la place de la photo de profil
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux sont visibles
             resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
