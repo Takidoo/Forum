@@ -16,7 +16,7 @@ var DB *sql.DB
 
 func ConnectDB() {
 	var err error
-	DB, err = sql.Open("sqlite3", "forum.db")
+	DB, err = sql.Open("sqlite3", "Database/forum.db")
 	if err != nil {
 		log.Fatal("Erreur lors de la connexion à la base de données:", err)
 	}
@@ -62,6 +62,8 @@ func CreateTables() {
 			user_id INTEGER NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			visible BOOLEAN DEFAULT true,
+			category INTEGER NOT NULL,
+			FOREIGN KEY(category) REFERENCES categories(id) ON DELETE CASCADE
 			FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 		);`,
 		`CREATE TABLE IF NOT EXISTS posts (
@@ -83,11 +85,21 @@ func CreateTables() {
 	);
 		`,
 		`
+		CREATE TABLE IF NOT EXISTS categories (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			name TEXT UNIQUE NOT NULL
+
+	);
+		`,
+		`
 			CREATE UNIQUE INDEX IF NOT EXISTS idx_token ON sessions(token);
 		`,
 		`
 			CREATE UNIQUE INDEX IF NOT EXISTS idx_user ON users(username);
 		`,
+		`
+			CREATE INDEX IF NOT EXISTS idx_category ON threads(category);
+	`,
 	}
 
 	for _, query := range queries {
@@ -120,8 +132,20 @@ func CheckUserPassword(username, password string) bool {
 
 func CheckIfThreadExist(thread_id string) bool {
 	var title string
-	query := `SELECT title FROM threads WHERE id = ? LIMIT 1`
+	query := `SELECT title FROM threads WHERE id = ?`
 	err := DB.QueryRow(query, thread_id).Scan(&title)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false
+		}
+		return false
+	}
+	return true
+}
+func CheckIfCategoryExist(category_id string) bool {
+	var title string
+	query := `SELECT name FROM categories WHERE id = ?`
+	err := DB.QueryRow(query, category_id).Scan(&title)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return false

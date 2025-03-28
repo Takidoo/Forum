@@ -11,8 +11,13 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Méthode Invalide", http.StatusBadRequest)
 		return
 	}
-	if r.FormValue("title") == "" {
-		http.Error(w, "Titre Invalide", http.StatusBadRequest)
+	if r.FormValue("title") == "" || r.FormValue("category") == "" {
+		http.Error(w, "Invalid Args", http.StatusBadRequest)
+		return
+	}
+	if !Database.CheckIfCategoryExist(r.FormValue("category")) {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"status": "Invalid Category"})
 		return
 	}
 	middleAuth, aerr := Database.MiddlewareAuth(w, r)
@@ -28,9 +33,10 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	}
 	var user User
 	json.NewDecoder(resp.Body).Decode(&user)
-	query := `INSERT INTO threads (title, user_id) VALUES (?, ?)`
-	_, qerr := Database.DB.Exec(query, r.FormValue("title"), user.ID)
+	query := `INSERT INTO threads (title, user_id, category) VALUES (?, ?, ?)`
+	_, qerr := Database.DB.Exec(query, r.FormValue("title"), user.ID, r.FormValue("category"))
 	if qerr != nil {
+		print(qerr.Error())
 		http.Error(w, "Impossible de créer le thread", http.StatusInternalServerError)
 		return
 	}

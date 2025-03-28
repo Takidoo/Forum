@@ -8,8 +8,7 @@
 <body>
     <form action="/api/SetUserRole" method="POST">
         <input type="text" placeholder="User ID" name="UserID">
-        <select name="RoleID" id="RoleIdBox">                  <!--menu déroulant pour définir le type de recherche-->
-            <!--critères de recherche-->
+        <select name="RoleID" id="RoleIdBox">                  
             <option value="0">User</option>
             <option value="1">Moderator</option>
             <option value="2">Admin</option>
@@ -18,12 +17,15 @@
     </form>
     <form action="/api/DisableAccount" method="POST">
         <input type="text" placeholder="User ID" name="UserID">
-        <select name="disabled" id="RoleIdBox">                  <!--menu déroulant pour définir le type de recherche-->
-            <!--critères de recherche-->
+        <select name="disabled" id="RoleIdBox">                 
             <option value="0">Disable</option>
             <option value="1">Enable</option>
         </select>
         <button type="submit">Set</button>
+    </form>
+    <form action="/api/CreateCategory" method="POST">
+        <input type="text" placeholder="Title" name="title">
+        <button type="submit">Create</button>
     </form>
 </body>
 </html>
