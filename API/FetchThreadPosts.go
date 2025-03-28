@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 )
 
 type Post struct {
@@ -22,10 +21,8 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, aerr.Error(), http.StatusUnauthorized)
 		return
 	}
-	_, err := strconv.Atoi(r.FormValue("thread_id"))
-	if err != nil {
-		http.Error(w, "ID du thread invalide", http.StatusBadRequest)
-		return
+	if !Database.CheckIfThreadExist(r.FormValue("thread_id")) {
+		http.Error(w, "Invalid Thread ID", http.StatusBadRequest)
 	}
 
 	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ? AND visible=true`, r.FormValue("thread_id"))
