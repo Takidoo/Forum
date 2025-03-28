@@ -23,6 +23,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 	}
 	if !Database.CheckIfThreadExist(r.FormValue("thread_id")) {
 		http.Error(w, "Invalid Thread ID", http.StatusBadRequest)
+		return
 	}
 
 	rows, err := Database.DB.Query(`SELECT id, thread_id, user_id, content, created_at FROM posts WHERE thread_id = ? AND visible=true`, r.FormValue("thread_id"))
