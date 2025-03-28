@@ -1,3 +1,4 @@
+/* Styles de base pour mobile-first */
 body {
     display: grid;
     place-items: center;
@@ -24,12 +25,32 @@ body {
     margin: clamp(10px, 2vw, 20px) auto; /* Centrer horizontalement avec une marge verticale */
 }
 
+.search-container {
+    display: grid;
+    gap: clamp(10px, 2vw, 20px); /* Espacement entre les éléments du formulaire */
+    align-items: center;
+    width: 100%;
+}
+
+.search-bar {
+    display: flex; /* Aligne la barre de recherche et l'icône sur la même ligne */
+    align-items: center; /* Aligne verticalement les éléments au centre */
+    gap: clamp(5px, 1vw, 10px); /* Espacement entre la barre de recherche et l'icône */
+    width: 100%;
+}
+
 .reshearch1 {
-    width: 95%; /* Prend tout l'espace disponible dans la colonne centrale */
+    flex: 1; /* Permet à la barre de recherche de prendre tout l'espace disponible */
     padding: clamp(5px, 1vw, 10px); /* Espacement interne adaptable */
     border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
     border: 1px solid #ccc; /* Ajoute une bordure pour la barre de recherche */
     background: #f0f0f0;
+}
+
+.search {
+    width: clamp(20px, 5vw, 40px); /* Taille adaptable pour l'icône */
+    height: clamp(30px, 5vw, 40px);
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
 }
 
 form {
@@ -87,6 +108,7 @@ form {
     text-align: center;
     white-space: nowrap;
     transition: background 0.3s ease;
+    justify-self: flex-end;
 }
 
 .section .view-all:hover {
@@ -117,7 +139,51 @@ form {
     width: 100%;
 }
 
-/* Media Queries for larger screens */
+.dropbtn {
+    background-color: grey;
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Coins arrondis pour le bouton */
+}
+  
+.dropbtn:hover, .dropbtn:focus {
+    background-color: grey;
+}
+  
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+.dropdown a:hover {
+    background-color: #ddd;
+}
+  
+.show {
+    display: block;
+}
+
+/* Media Queries pour les écrans plus larges */
 @media (min-width: 768px) {
     body {
         margin: clamp(20px, 3vw, 40px);
@@ -125,5 +191,9 @@ form {
 
     form {
         max-width: clamp(400px, 50vw, 600px);
+    }
+
+    .search-bar {
+        gap: 15px; /* Augmente l'espacement entre la barre de recherche et l'icône */
     }
 }

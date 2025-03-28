@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/resources/reception.css">
+    <script src="/resources/fonctions.js"></script>
 </head>
 <body>
     <div class="research">
@@ -13,7 +14,18 @@
         
         <!-- Barre de recherche -->
         <form action="/research" method="POST">
-            <input class="reshearch1" name="title" id="title" placeholder="Search..." onclick="window.location.href = '/research';">
+            <div class="search-bar">
+                <input class="reshearch1" name="title" id="title" placeholder="Search..." type="text" required>
+                <img class="search" src="/resources/pictures/search.png" alt="search" onclick="document.getElementById('searchForm').submit();">
+            </div>
+            <div class="dropdown">
+                <button onclick="Filter()" class="dropbtn" type="button">filter</button>
+                <div id="myDropdown" class="dropdown-content">
+                  <a href="#categories">categories</a>
+                  <a href="#created posts">created posts</a>
+                  <a href="#liked posts">liked posts</a>
+                </div>
+            </div>
         </form>
         
         <!-- Photo de profil -->
