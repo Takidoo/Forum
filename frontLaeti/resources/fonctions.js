@@ -113,4 +113,166 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         }else{
             console.error("formulaire d'inscription non trouvé"); //on affiche un message d'erreur sur la console si la div du formulaire d'inscription n'est pas trouvé
         }
+
+    /*FONCTIONNALITE DE MISE A JOUR*/
+    //création de lien pour accèder à la section de mise à jour
+    const forgetIdLink = document.getElementById("forgetIdlink");
+    const forgetPasswordLink = document.getElementById("forgetPasswordlink");
+
+    //mise à jour des liens
+    forgetIdLink.addEventListener("click", function(e){
+        e.preventDefault();
+        showUpdateSection('username');
+    });
+
+    forgetPasswordLink.addEventListener("click", function(e){
+        e.preventDefault();
+        showUpdateSection('password');
+    });
+
+    //affiche la section de modification
+    function showUpdateSection(updateType){
+        //on cache les éléments suivant:
+        document.getElementById("initialButtons").style.display="none";
+        document.getElementById("connexion").style.display="none";
+        document.getElementById("inscription").style.display="none";
+        document.getElementById("profilPicture").style.display="none";
+        document.getElementById("updates").style.display="none";
+        //on montre les éléments suivant:
+        document.getElementById("logo").style.display="block";
+        document.getElementById("update").style.display="flex";
+        // on cache les deux sections par défaut:
+        document.getElementById("usernameUpdateData").style.display="none";
+        document.getElementById("passwordUpdateData").style.display="none";
+        document.getElementById("updateSubmit").style.display="block";
+
+        //on selectionne quel type de mise à jour on veut faire (mot de passe ou id)
+        if (updateType === 'username'){
+            document.getElementById("usernameUpdateData").style.display="block";
+            document.getElementById("passwordUpdateData").style.display="none";
+        }else if(updateType === 'password'){
+            document.getElementById("passwordUpdateData").style.display="block";
+            document.getElementById("usernameUpdateData").style.display="none";
+        }
+    }
+    //on ajoute des écoutes d'évenements pour les boutons de mises à jour
+    document.getElementById("showUsernameUpdate").addEventListener("click", function(){
+        //on montre les éléments suivant:
+        document.getElementById("usernameUpdateData").style.display="block";
+        document.getElementById("updateSubmit").style.display="block";
+        //on cache les éléments suivant:
+        document.getElementById("passwordUpdateData").style.display="none";
+    });
+
+    document.getElementById("showPasswordUpdate").addEventListener("click", function(){
+        //on montre les éléments suivant:
+        document.getElementById("passwordUpdateData").style.display="block";
+        document.getElementById("updateSubmit").style.display="block";
+        //on cache les éléments suivant:
+        document.getElementById("usernameUpdateData").style.display="none";
+    });
+
+    //on créer une fonction pour gérer les messages d'erreur sur l'interface utilisateur
+    function showError(inputElement, message){
+        if(inputElement){ //on vérifie si l'élément existe et s'il contient une saisie
+            inputElement.textContent = message;
+            inputElement.style.display = "block";
+        }else{
+            alert(message); //si ce n'est pas le cas, on affiche une message d'erreur
+        }
+    }
+    //on valide le formulaire de modifications
+    const updateForm = document.querySelector("#update form");
+    if(updateForm){
+        updateForm.addEventListener("submit", function(e){
+        e.preventDefault();
+    
+        //on vérifie le nom de l'utilisateur et on rend le champ obligatoire
+        const currentUsername = document.getElementById("currentUsername").value.trim();
+        if(!currentUsername){
+            alert("Please enter your current username");
+            return;
+        }
+
+        //on vérifie que l'utilisateur a bien sélectionné une question de sécurité
+        const securityQuestion = document.getElementById("securityAnswer").value.trim();
+        if (!securityQuestion || securityQuestion === ""){
+            alert("Please select a security question");
+            return;
+        }
+
+        //si l'utilisateur n'a pas répondu à la question de sécurité:
+        const securityAnswer = document.getElementById("securityAnswer").value.trim();
+        if (!securityAnswer){ //si l'entrée utilisateur n'a pas été saisie
+            alert("Please answer the security question"); //on déclanche une alerte en affichant un message sur l'interface utilisateur
+            return;
+        }
+        //si l'utilisateur n'a pas entré un nouvel identifiant:
+        if (document.getElementById("usernameUpdateData").style.display === "block"){ //on verifie que l'input du nouvel id est visible 
+            const newUsername = document.getElementById("newUsername").value.trim(); //si c'est le cas, on récupère la valeur du champ de texte en enlevant les espaces inutiles au début et à la fin
+            if (!newUsername){
+                alert("Please enter a new username");
+                return;
+            }
+        }
+        
+        //si l'utilisateur n'a pas entré un nouveau mot de passe:
+        if (document.getElementById("passwordUpdateData").style.display === "block"){
+            const newPassword = document.getElementById("newPassword").value.trim(); //on vérifie les deux saisies
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+            if(!newPassword){
+                alert("Please enter a new password");
+                return;
+            }
+            if(!confirmPassword){
+                alert("Please enter a new password");
+                return;
+            }
+            if(newPassword !== confirmPassword){
+                alert("Password do not match");
+                return;
+            }
+        }
+    
+        //si les modifications on bien été mise à jour, on affiche un message d'alerte:
+        alert("Your information has been successfully updated");
+
+        //on réinitialise l'affichage initiale
+        updateDiv.style.display="none"; //on cache la div de mise à jour
+        document.getElementById("logo").style.display="block"; //on affiche le logo et les boutons initiaux
+        document.getElementById("initialButtons").style.display="flex";
+        document.getElementById("updates").style.display="flex";
+        updateForm.reset();//on efface toutes les saisies utilisateurs
+        });
+    }else{
+        console.error("formulaire de modification est introuvable")
+    }
+
+    /*AJOUT D'UN BOUTON BACK POUR LA MISE A JOUR UTILISATEUR*/
+    const updateDiv = document.getElementById("update");
+    if (updateDiv){
+        const backButtonUpdate = document.createElement("button");
+        backButtonUpdate.textContent = "Back";
+        backButtonUpdate.type = "button";
+        backButtonUpdate.classList.add("backButton");
+
+        backButtonUpdate.addEventListener("click", function(e){
+            e.preventDefault(); // empêche le refresh
+            updateDiv.style.display ="none"; //cache la section de modification
+            
+            document.getElementById("usernameUpdateData").style.display="none"; //réinitialise les champs de saisie
+            document.getElementById("passwordUpdateData").style.display="none";
+            document.getElementById("updateSubmit").style.display="none";
+
+            document.getElementById("initialButtons").style.display = "flex"; //réinitialise l'affichage initiale
+            document.getElementById("logo").style.display="block";
+            document.getElementById("updates").style.display="flex";
+
+            if (updateForm){ //réinitialise le formulaire
+                updateForm.reset();
+            }
+        });
+        updateDiv.appendChild(backButtonUpdate);
+    }
 });
