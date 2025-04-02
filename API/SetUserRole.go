@@ -2,6 +2,7 @@ package API
 
 import (
 	"Forum/Database"
+	"Forum/Forum"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -17,12 +18,9 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cookie, _ := r.Cookie("session_id")
-	var user User
-	resp, _ := http.Get("http://127.0.0.1/api/UserInfo?session=" + cookie.Value)
-	json.NewDecoder(resp.Body).Decode(&user)
-	print(user.Role)
+	var user Forum.User
+	user, _ = Forum.GetUser(cookie.Value)
 	roleInt, _ := strconv.Atoi(r.FormValue("RoleID"))
-	print(roleInt)
 	if roleInt > user.Role {
 		http.Error(w, "Vous ne pouvez pas donner des permissions au dessus des votres", http.StatusUnauthorized)
 		return

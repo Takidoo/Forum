@@ -1,0 +1,93 @@
+* {
+    text-decoration: none;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #262625;
+}
+header {
+    position: sticky;
+}
+.navbar {
+    border-bottom: 1px solid white;
+}
+.navdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+    font-family: 'calibri';
+}
+/* Conteneur du bouton Search et de la boîte */
+.search-container {
+    position: relative; /* Permet à .search-box de se positionner par rapport à lui */
+    display: inline-block;
+}
+
+/* Boîte de recherche cachée par défaut */
+.search-box {
+    position: absolute;
+    margin: 10px;
+    top: 100%; /* Place la boîte juste en dessous */
+    left: -170px;
+    width: 200px;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10; /* Assure que l’élément est au-dessus des autres */
+}
+
+/* Afficher la boîte quand on survole "Search" */
+.search-container:hover .search-box {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Style de l'input */
+.search-box input {
+    width: 96%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.navlogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navdiv h1 {
+    color: white;
+    font-family: 'Impact';
+}
+.navdiv img {
+    width: 90px;
+    height: 90px;
+}
+.navdiv li {
+    display: inline-block;
+    list-style: none;
+    margin: 10px;
+}
+.navdiv li a {
+    color: white;
+    font-weight: bold
+}
+.navdiv li a:hover {
+    text-decoration: underline;
+}
+.navdiv button {
+    width: 90px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+.navdiv button a {
+    color: black;
+    font-weight: bold;
+}

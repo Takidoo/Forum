@@ -1,0 +1,47 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de connexion</title>
+</head>
+<body>
+    <form action="/api/FetchThreadPosts" method="POST">
+        <label for="Thread id">Thread Fetch</label>
+        <input type="text" id="username" name="thread_id">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/api/login" method="POST">
+        <label for="Login">Login</label>
+        <input type="text" id="username" name="username">
+        <input type="text" id="mdp" name="password">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/api/register" method="POST">
+        <label for="Login">Register</label>
+        <input type="text" id="username1" name="username">
+        <input type="text" id="mdp1" name="password">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/api/CreateThread" method="POST">
+        <label for="Login">CreateThread</label>
+        <input type="text" id="title" name="title">
+        <input type="text" id="category" name="category">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/api/CreatePost" method="POST">
+        <label for="Login">CreatePost</label>
+        <input type="text" id="post" name="thread_id">
+        <input type="text" id="postmsg" name="message">
+        <br>
+        <button type="submit">GO</button>
+    </form>
+    <form action="/admin" method="GET">
+        <label for="Login">AdminPage</label>
+        <button type="submit">GO</button>
+    </form>
+</body>
+</html>

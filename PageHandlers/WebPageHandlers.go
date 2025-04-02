@@ -2,13 +2,20 @@ package PageHandlers
 
 import (
 	"Forum/Database"
+	"Forum/Forum"
 	"html/template"
 	"net/http"
 )
 
 func TestPageHandler(w http.ResponseWriter, r *http.Request) {
-	var tmpl, _ = template.ParseFiles("WebPages/home.html")
+	var tmpl, _ = template.ParseFiles("WebPages/test.html")
 	tmpl.Execute(w, nil)
+}
+func HomePageHandler(w http.ResponseWriter, r *http.Request) {
+	var tmpl, _ = template.ParseFiles("WebPages/home.html")
+	tmpl.Execute(w, Forum.HomePageData{
+		LastedThreads: Forum.GetLastedThreads(10),
+	})
 }
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
 	if !Database.UserIsAdmin(w, r) {

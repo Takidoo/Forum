@@ -2,6 +2,7 @@ package API
 
 import (
 	"Forum/Database"
+	"Forum/Forum"
 	"encoding/json"
 	"net/http"
 )
@@ -26,9 +27,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie, _ := r.Cookie("session_id")
-	var user User
-	resp, _ := http.Get("http://127.0.0.1/api/UserInfo?session=" + cookie.Value)
-	json.NewDecoder(resp.Body).Decode(&user)
+	user, err := Forum.GetUser(cookie.Value)
+	if err != nil {
+		http.Error(w, "Cannot get user info", http.StatusInternalServerError)
+		return
+	}
 	_, qerr := Database.DB.Exec(`INSERT INTO posts (thread_id, user_id, content) VALUES (?, ?, ?)`, thread_id, user.ID, message)
 	if qerr != nil {
 		http.Error(w, "Cannot create post", http.StatusInternalServerError)

@@ -2,18 +2,11 @@ package API
 
 import (
 	"Forum/Database"
+	"Forum/Forum"
 	"encoding/json"
 	"fmt"
 	"net/http"
 )
-
-type Post struct {
-	PostID   int    `json:"post_id"`
-	ThreadID int    `json:"thread_id"`
-	Owner    int    `json:"owner"`
-	Content  string `json:"content"`
-	Date     string `json:"created_at"`
-}
 
 func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 	middleAuth, aerr := Database.MiddlewareAuth(w, r)
@@ -35,9 +28,9 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Messages récupérés avec succès")
 
-	var posts []Post
+	var posts []Forum.Post
 	for rows.Next() {
-		var post Post
+		var post Forum.Post
 		if err := rows.Scan(&post.PostID, &post.ThreadID, &post.Owner, &post.Content, &post.Date); err != nil {
 			http.Error(w, "Erreur lors de la lecture des données", http.StatusInternalServerError)
 			return

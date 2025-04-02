@@ -1,47 +1,96 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de connexion</title>
+    <title>Forum Triche & Jeux Vidéo</title>
+    <link rel="stylesheet" href="/Resources/HavocHeader.css">
+    <link rel="stylesheet" href="/Resources/home.css">
 </head>
 <body>
-    <form action="/api/FetchThreadPosts" method="POST">
-        <label for="Thread id">Thread Fetch</label>
-        <input type="text" id="username" name="thread_id">
-        <br>
-        <button type="submit">GO</button>
-    </form>
-    <form action="/api/login" method="POST">
-        <label for="Login">Login</label>
-        <input type="text" id="username" name="username">
-        <input type="text" id="mdp" name="password">
-        <br>
-        <button type="submit">GO</button>
-    </form>
-    <form action="/api/register" method="POST">
-        <label for="Login">Register</label>
-        <input type="text" id="username1" name="username">
-        <input type="text" id="mdp1" name="password">
-        <br>
-        <button type="submit">GO</button>
-    </form>
-    <form action="/api/CreateThread" method="POST">
-        <label for="Login">CreateThread</label>
-        <input type="text" id="title" name="title">
-        <input type="text" id="category" name="category">
-        <br>
-        <button type="submit">GO</button>
-    </form>
-    <form action="/api/CreatePost" method="POST">
-        <label for="Login">CreatePost</label>
-        <input type="text" id="post" name="thread_id">
-        <input type="text" id="postmsg" name="message">
-        <br>
-        <button type="submit">GO</button>
-    </form>
-    <form action="/admin" method="GET">
-        <label for="Login">AdminPage</label>
-        <button type="submit">GO</button>
-    </form>
+
+    <header>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="navlogo">
+                    <img src="/Resources/pictures/Logo_GlitchHavoc.png">
+                    <h1>Glitch Havoc</h1>
+                </div>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li class="search-container">
+                        <a href="#">Search</a>
+                        <div class="search-box">
+                            <input type="text" placeholder="Tapez votre recherche...">
+                        </div>
+                    </li>
+                    <button><a href="#">Connexion</a></button>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="Body-Container"> 
+        <div class="Forum-Container">
+            <div class="Thread-Grid">
+
+                <div class="Threads-Block">
+                    <div class="Threads-Block-Head">
+                        <div class="Block-Title">
+                            <h1>Top Threads</h1>
+                        </div>
+                    </div>
+                    <div class="Threads-Block-Content">
+                        <div class="Thread-Div">
+                            <div class="Thread-User-Avatar"></div>
+                            <div class="Thread-Name"><button>test</button></div>
+                        </div>
+                        <div class="Thread-Div">
+                            <div class="Thread-User-Avatar"></div>
+                            <div class="Thread-Name"><button>test</button></div>
+                        </div>
+                        <div class="Thread-Div">
+                            <div class="Thread-User-Avatar"></div>
+                            <div class="Thread-Name"><button>test</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Threads-Block">
+                    <div class="Threads-Block-Head">
+                        <div class="Block-Title">
+                            <h1>Last Threads</h1>
+                        </div>
+                    </div>
+                    <div class="Threads-Block-Content">
+                        {{range .LastedThreads}}
+                        <div class="Thread-Div">
+                            <div class="Thread-User-Avatar"></div>
+                            <div class="Thread-Name">{{.Title}}</div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+
+                
+            </div>
+            
+            
+
+            <div class="User-Grid">
+                <div class="User-Block">
+                    <div class="User-Block-Head">
+                        <div class="Block-Title">
+                            <h1>Profile</h1>
+                        </div>
+                    </div>
+                    <div class="User-Block-Content"></div>
+                </div>
+            </div>
+        </div>
+        <footer><p>&copy; Blabla y'a du copyright</p></footer>
+    </div>
+
+
 </body>
 </html>

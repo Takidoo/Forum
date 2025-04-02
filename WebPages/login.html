@@ -15,7 +15,7 @@
 
         <div id="image">
             <div id="logo">
-                <img src="Resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
+                <img src="resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
             </div>
             <div id="profilPicture">
                 <label for="picture">Profil picture: </label>
@@ -30,9 +30,10 @@
                 <button id="goToConnexion" href="#connexion">Login</button>
                 <button id="goToInscription" href="#inscription">Register</button>
             </div>
+
             <div id="connexion" class="form">
                 <h2>Login</h2>
-                <form id="loginForm">
+                <form action="/api/login" method="POST">
                     <label for="usernameConnexion"></label>
                     <input type="text" id="usernameConnexion" name="username" placeholder="Username" required>
                     <label for="passwordConnexion"></label>
@@ -40,6 +41,7 @@
                     <button type="submit">Submit</button>
                 </form>
             </div>
+
             <div id="inscription" class="form">
                 <h2>Register</h2>
                 <form action="/api/register" method="POST">
@@ -50,11 +52,52 @@
                     <button type="submit">Submit</button>
                 </form>
             </div>
+
+            <div id="updates" class="form">
+                <a href="#" id="forgetIdlink"><h3>forget ID</h3></a> <!--lien vers le javascript-->
+                <a href="#" id="forgetPasswordlink"><h3>forget password</h3></a>
+            </div>
+            
+            <div id="update" class="form">
+                <h2>change your informations</h2>
+                <form action="/update" method="POST">
+                    <label for="currentUsername"></label>
+                    <input type="text" id="currentUsername" name="currentUsername" placeholder="current username" required>
+
+                    <label for="securityQuestion"></label>
+                    <select id="securityQuestion" name="securityQuestion" required>
+                        <option value="" disabled selected>Choose your security question</option>
+                        <option value="pet">What was the name of your first pet?</option>
+                        <option value="city">In witch city were you born?</option>
+                        <option value="school">What was the name of your primary school?</option>
+                        <option value="mother">What is your mother's maiden name?</option>
+                        <option value="car">What was the brand of your first car?</option>
+                    </select>
+
+                    <label for="securityAnswer"></label>
+                    <input type="text" id="securityAnswer" name="securityAnswer" placeholder="security Answer" required>
+
+                    <div id="updateOptions">
+                        <button type="button" id="showUsernameUpdate">Change username</button>
+                        <button type="button" id="showPasswordUpdate">Change password</button>
+                    </div>
+
+                    <div id="usernameUpdateData">
+                        <label for="newUsername"></label>
+                        <input type="text" id="newUsername" name="newUsername" placeholder="new username">
+                    </div>
+
+                    <div id="passwordUpdateData">
+                        <label for="newPassword"></label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="new password"> <!--input de type password afin de masquer la saisie-->
+                        <label for="confirmPassword"></label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password">
+                    </div>
+
+                    <button type="submit" id="updateSubmit">save changes</button>
+                </form>
+            </div>
         </section>
     </main>
-    <div id="popup" style="display: none;">
-        <span id="popupMessage"></span>
-        <button onclick="closePopup()">OK</button>
-    </div>
 </body>
 </html>

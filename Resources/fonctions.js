@@ -1,19 +1,20 @@
-// on attend que le contenu DOM de la page soit chargé
+/*ATTENTE DU CHARGEMENT INTEGRALE DE LA PAGE*/
 document.addEventListener("DOMContentLoaded", function() { //on ajoute une écoute d'événement au chargement de la page
     console.log("DOM chargé"); //affiche un message console pour vérifie que le contenu est bien chargé
     
     document.getElementById("initialButtons").style.display="flex"; //on force l'affichage des boutons initiaux
 
-    //on ajoute une écoute d'événement au clic sur le bouton Login
-    document.getElementById("goToConnexion").addEventListener("click", function(e) {
+    /*AFFICHAGE DYNAMIQUE AU CLIC DU BOUTON LOGIN*/
+    document.getElementById("goToConnexion").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Login
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton login"); //on affiche un message console pour vérifier que le clic fonctionne
         document.getElementById("initialButtons").style.display="none"; //cache les boutons initiaux à l'activation du bouton connexion
+        document.getElementById("logo").style.display="block"; //affiche le logo
         document.getElementById("connexion").style.display="flex"; //rend la div connexion visible à l'activation du bouton connexion
     });
 
-    //on ajoute une écoute d'événement au clic sur le bouton Register
-    document.getElementById("goToInscription").addEventListener("click", function(e) {
+    /*AFFICHAGE DYNAMIQUE AU CLIC DU BOUTON REGISTER*/
+    document.getElementById("goToInscription").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Register
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton register"); //on affiche un message console pour vérifier que le clic fonctionne
         document.getElementById("initialButtons").style.display="none"; //rend les boutons invisibles à l'activation du bouton inscription
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         document.getElementById("inscription").style.display="flex"; //rend la div inscription visible
     });
 
-    //prévisualisation de l'image de profil
+    /*PREVISUALISATION DE L'IMAGE DE PROFIL*/
     document.getElementById("picture").addEventListener("change", function(event) { //affiche l'image sélectionnée dans la div preview à partir de l'input file
         const preview = document.getElementById("preview"); //recupère la div preview avec un id unique
         const file = event.target.files[0]; //recupère le fichier sélectionné à l'indice 1 dans le tableau files
@@ -37,7 +38,26 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         }
     });
 
-    //ajout de bouton back dans les div connexion et inscription
+    /*FONCTION QUI PERMET DE REINITIALISER LES FORMULAIRES ET LES IMAGES*/
+    function resetElements(){
+        //on réintialise le formulaire d'inscription
+        if (document.getElementById("inscription").querySelector("form")){
+            document.getElementById("inscription").querySelector("form").reset();
+        }
+        //on réintialise le formulaie de connexion
+        if (document.getElementById("connexion").querySelector("form")){
+            document.getElementById("connexion").querySelector("form").reset();
+        }
+        //on réinitialise l'image de profil
+        document.getElementById("preview").style.display="none"; //cache l'élément preview
+        document.getElementById("preview").src=""; //vide la source de l'image
+            if (document.getElementById("picture")){ //réinitialise le champ input de type file (l'image posté)
+                document.getElementById("picture").value="";
+            }
+    }
+
+
+    /*AJOUT DE BOUTONS BACK DANS LES DIV CONNEXION ET INSCRIPTION*/
     //selection des conteneurs des formulaires de connexion et d'inscription
     const connexionDiv = document.getElementById("connexion"); //recupère le formulaire de connexion
     const inscriptionDiv = document.getElementById("inscription"); //recupère le formulaire d'inscription
@@ -56,7 +76,10 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
             e.preventDefault(); //on empêche le rechargement de la page
             console.log("click sur le bouton Back connexion"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             connexionDiv.style.display="none"; //on rend le formulaire invisible
+            document.getElementById("logo").style.display="block"; //affiche à nouveau le logo
+            document.getElementById("profilPicture").style.display="none"; //fait bien disparaitre la section avec la photo de profil
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux visibles
+            resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
 
         //on ajoute le bouton au formulaire de connexion
@@ -77,9 +100,12 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         //on ajoute une écoute d'événement au clic sur le bouton retour
         backButtonInscription.addEventListener("click", function(e) {
             e.preventDefault(); //on empêche le rechargement de la page
-            console.log("click sur le bouton Back connexion"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
+            console.log("click sur le bouton Back inscription"); //on affiche un message console pour vérifier que le clic du bouton retour fonctionne
             inscriptionDiv.style.display="none"; //on rend le formulaire invisible
+            document.getElementById("profilPicture").style.display="none"; //on cache la section de photo de profil
+            document.getElementById("logo").style.display="block"; //on affiche le logo à la place de la photo de profil
             document.getElementById("initialButtons").style.display="flex"; //les boutons initiaux sont visibles
+            resetElements(); //on fait appel à la fonction qui réinitialise les formulaires et l'image
         });
 
         //on ajoute le bouton au formulaire d'inscription
@@ -88,55 +114,165 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
             console.error("formulaire d'inscription non trouvé"); //on affiche un message d'erreur sur la console si la div du formulaire d'inscription n'est pas trouvé
         }
 
-    // Get the form by its ID
-    const loginForm = document.getElementById('loginForm');
+    /*FONCTIONNALITE DE MISE A JOUR*/
+    //création de lien pour accèder à la section de mise à jour
+    const forgetIdLink = document.getElementById("forgetIdlink");
+    const forgetPasswordLink = document.getElementById("forgetPasswordlink");
 
-    // Only if the form exists (it should), add a 'submit' listener
-    if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop the page from reloading
-
-        // Collect the form data
-        const formData = new FormData(loginForm);
-
-        // Send it to the Go handler using fetch
-        fetch('/api/login', {
-        method: 'POST',
-        body: formData
-        })
-        .then(response => {
-        // Even if the response is 401 or 400, fetch won't throw an error,
-        // so we can still read JSON. But let's handle OK vs. error below:
-        return response.json().then(data => ({ status: response.status, body: data }));
-        })
-        .then(({ status, body }) => {
-        // The Go handler returns either {"success": "..."} or {"erreur": "..."}
-        if (status === 200 && body.success) {
-            // Show success message (popup or alert)
-            window.location.href = "/home";
-            // Optionally redirect somewhere:
-            // window.location.href = "/someOtherPage";
-        } else {
-            // Show error popup
-            // body.erreur might be "Identifiants invalides" or some other message
-            alert("Erreur : " + body.erreur);
-        }
-        })
-        .catch(error => {
-        console.error("Fetch error:", error);
-        alert("Une erreur inattendue est survenue.");
-        });
+    //mise à jour des liens
+    forgetIdLink.addEventListener("click", function(e){
+        e.preventDefault();
+        showUpdateSection('username');
     });
+
+    forgetPasswordLink.addEventListener("click", function(e){
+        e.preventDefault();
+        showUpdateSection('password');
+    });
+
+    //affiche la section de modification
+    function showUpdateSection(updateType){
+        //on cache les éléments suivant:
+        document.getElementById("initialButtons").style.display="none";
+        document.getElementById("connexion").style.display="none";
+        document.getElementById("inscription").style.display="none";
+        document.getElementById("profilPicture").style.display="none";
+        document.getElementById("updates").style.display="none";
+        //on montre les éléments suivant:
+        document.getElementById("logo").style.display="block";
+        document.getElementById("update").style.display="flex";
+        // on cache les deux sections par défaut:
+        document.getElementById("usernameUpdateData").style.display="none";
+        document.getElementById("passwordUpdateData").style.display="none";
+        document.getElementById("updateSubmit").style.display="block";
+
+        //on selectionne quel type de mise à jour on veut faire (mot de passe ou id)
+        if (updateType === 'username'){
+            document.getElementById("usernameUpdateData").style.display="block";
+            document.getElementById("passwordUpdateData").style.display="none";
+        }else if(updateType === 'password'){
+            document.getElementById("passwordUpdateData").style.display="block";
+            document.getElementById("usernameUpdateData").style.display="none";
+        }
+    }
+    //on ajoute des écoutes d'évenements pour les boutons de mises à jour
+    document.getElementById("showUsernameUpdate").addEventListener("click", function(){
+        //on montre les éléments suivant:
+        document.getElementById("usernameUpdateData").style.display="block";
+        document.getElementById("updateSubmit").style.display="block";
+        //on cache les éléments suivant:
+        document.getElementById("passwordUpdateData").style.display="none";
+    });
+
+    document.getElementById("showPasswordUpdate").addEventListener("click", function(){
+        //on montre les éléments suivant:
+        document.getElementById("passwordUpdateData").style.display="block";
+        document.getElementById("updateSubmit").style.display="block";
+        //on cache les éléments suivant:
+        document.getElementById("usernameUpdateData").style.display="none";
+    });
+
+    //on créer une fonction pour gérer les messages d'erreur sur l'interface utilisateur
+    function showError(inputElement, message){
+        if(inputElement){ //on vérifie si l'élément existe et s'il contient une saisie
+            inputElement.textContent = message;
+            inputElement.style.display = "block";
+        }else{
+            alert(message); //si ce n'est pas le cas, on affiche une message d'erreur
+        }
+    }
+    //on valide le formulaire de modifications
+    const updateForm = document.querySelector("#update form");
+    if(updateForm){
+        updateForm.addEventListener("submit", function(e){
+        e.preventDefault();
+    
+        //on vérifie le nom de l'utilisateur et on rend le champ obligatoire
+        const currentUsername = document.getElementById("currentUsername").value.trim();
+        if(!currentUsername){
+            alert("Please enter your current username");
+            return;
+        }
+
+        //on vérifie que l'utilisateur a bien sélectionné une question de sécurité
+        const securityQuestion = document.getElementById("securityAnswer").value.trim();
+        if (!securityQuestion || securityQuestion === ""){
+            alert("Please select a security question");
+            return;
+        }
+
+        //si l'utilisateur n'a pas répondu à la question de sécurité:
+        const securityAnswer = document.getElementById("securityAnswer").value.trim();
+        if (!securityAnswer){ //si l'entrée utilisateur n'a pas été saisie
+            alert("Please answer the security question"); //on déclanche une alerte en affichant un message sur l'interface utilisateur
+            return;
+        }
+        //si l'utilisateur n'a pas entré un nouvel identifiant:
+        if (document.getElementById("usernameUpdateData").style.display === "block"){ //on verifie que l'input du nouvel id est visible 
+            const newUsername = document.getElementById("newUsername").value.trim(); //si c'est le cas, on récupère la valeur du champ de texte en enlevant les espaces inutiles au début et à la fin
+            if (!newUsername){
+                alert("Please enter a new username");
+                return;
+            }
+        }
+        
+        //si l'utilisateur n'a pas entré un nouveau mot de passe:
+        if (document.getElementById("passwordUpdateData").style.display === "block"){
+            const newPassword = document.getElementById("newPassword").value.trim(); //on vérifie les deux saisies
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+            if(!newPassword){
+                alert("Please enter a new password");
+                return;
+            }
+            if(!confirmPassword){
+                alert("Please enter a new password");
+                return;
+            }
+            if(newPassword !== confirmPassword){
+                alert("Password do not match");
+                return;
+            }
+        }
+    
+        //si les modifications on bien été mise à jour, on affiche un message d'alerte:
+        alert("Your information has been successfully updated");
+
+        //on réinitialise l'affichage initiale
+        updateDiv.style.display="none"; //on cache la div de mise à jour
+        document.getElementById("logo").style.display="block"; //on affiche le logo et les boutons initiaux
+        document.getElementById("initialButtons").style.display="flex";
+        document.getElementById("updates").style.display="flex";
+        updateForm.reset();//on efface toutes les saisies utilisateurs
+        });
+    }else{
+        console.error("formulaire de modification est introuvable")
+    }
+
+    /*AJOUT D'UN BOUTON BACK POUR LA MISE A JOUR UTILISATEUR*/
+    const updateDiv = document.getElementById("update");
+    if (updateDiv){
+        const backButtonUpdate = document.createElement("button");
+        backButtonUpdate.textContent = "Back";
+        backButtonUpdate.type = "button";
+        backButtonUpdate.classList.add("backButton");
+
+        backButtonUpdate.addEventListener("click", function(e){
+            e.preventDefault(); // empêche le refresh
+            updateDiv.style.display ="none"; //cache la section de modification
+            
+            document.getElementById("usernameUpdateData").style.display="none"; //réinitialise les champs de saisie
+            document.getElementById("passwordUpdateData").style.display="none";
+            document.getElementById("updateSubmit").style.display="none";
+
+            document.getElementById("initialButtons").style.display = "flex"; //réinitialise l'affichage initiale
+            document.getElementById("logo").style.display="block";
+            document.getElementById("updates").style.display="flex";
+
+            if (updateForm){ //réinitialise le formulaire
+                updateForm.reset();
+            }
+        });
+        updateDiv.appendChild(backButtonUpdate);
     }
 });
-
-function showPopup(message) {
-    const popup = document.getElementById("popup");
-    const messageElem = document.getElementById("popupMessage");
-    messageElem.textContent = message;
-    popup.style.display = "block";
-  }
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}

@@ -1,0 +1,73 @@
+.Body-Container {
+    height: 100vh;
+}
+.Forum-Container {
+    display: flex;
+    margin: 80px;
+    background-color: #f0eae4;
+    font-family: 'calibri';
+    background-image: url(https://gitdata.ih.wtf/background.png)
+}
+
+/* Thread Grid */
+.Thread-Grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    height: 100%;
+    width: 75%;
+}
+.Threads-Block {
+    margin: 10px;
+}
+.Threads-Block-Head {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    background-color: #262625;
+    align-items: center;
+}
+.Threads-Block-Head h1{
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.Threads-Block-Content {
+    background-color: white;
+}
+.Thread-Div {
+    display: flex;
+    height: 50px;
+    background-color: white;
+    border-bottom: #262625 1px solid;
+}
+
+/* User Grid */
+.User-Grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    height: 100%;
+    width: 25%;
+}
+.User-Block {
+    margin: 10px;
+    height: 200px;
+}
+.User-Block-Head {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+    background-color: #262625;
+    justify-content: center;
+}
+.User-Block-Head h1{
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.User-Block-Content {
+    background-color: white;
+    height: 80%;
+}

@@ -17,7 +17,6 @@ func main() {
 	http.HandleFunc("/api/login", API.Login)
 	http.HandleFunc("/api/register", API.Register)
 	http.HandleFunc("/api/FetchThreadPosts", API.FetchThreadPosts)
-	http.HandleFunc("/api/UserInfo", API.UserInfo)
 	http.HandleFunc("/api/CreateThread", API.CreateThread)
 	http.HandleFunc("/api/CreatePost", API.CreatePost)
 	http.HandleFunc("/api/SetUserRole", API.SetUserRole)
@@ -25,7 +24,8 @@ func main() {
 	http.HandleFunc("/api/CreateCategory", API.CreateCategory)
 
 	// Pages
-	http.HandleFunc("/", PageHandlers.TestPageHandler)
+	http.HandleFunc("/", PageHandlers.HomePageHandler)
+	http.HandleFunc("/test", PageHandlers.TestPageHandler)
 	http.HandleFunc("/admin", PageHandlers.AdminPageHandler)
 	http.HandleFunc("/login", PageHandlers.LoginPageHandler)
 

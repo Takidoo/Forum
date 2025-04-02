@@ -2,6 +2,7 @@ package API
 
 import (
 	"Forum/Database"
+	"Forum/Forum"
 	"encoding/json"
 	"net/http"
 )
@@ -26,13 +27,11 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cookie, _ := r.Cookie("session_id")
-	resp, err := http.Get("http://127.0.0.1/api/UserInfo?session=" + cookie.Value)
+	user, err := Forum.GetUser(cookie.Value)
 	if err != nil {
-		http.Error(w, "Impossible de récupérer les infos de l'utilisateur", http.StatusInternalServerError)
+		http.Error(w, "Cannot get user info", http.StatusInternalServerError)
 		return
 	}
-	var user User
-	json.NewDecoder(resp.Body).Decode(&user)
 	query := `INSERT INTO threads (title, user_id, category) VALUES (?, ?, ?)`
 	_, qerr := Database.DB.Exec(query, r.FormValue("title"), user.ID, r.FormValue("category"))
 	if qerr != nil {
