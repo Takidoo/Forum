@@ -5,6 +5,12 @@ import (
 	"fmt"
 )
 
+type User struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Role     int    `json:"role"`
+}
+
 func GetUser(session string) (User, error) {
 	var user User
 	err := Database.DB.QueryRow("SELECT user_id FROM sessions WHERE token = ?", session).Scan(&user.ID)

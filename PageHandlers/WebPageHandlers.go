@@ -7,13 +7,17 @@ import (
 	"net/http"
 )
 
+type HomePageData struct {
+	LastedThreads []Forum.Thread
+}
+
 func TestPageHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl, _ = template.ParseFiles("WebPages/test.html")
 	tmpl.Execute(w, nil)
 }
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl, _ = template.ParseFiles("WebPages/home.html")
-	tmpl.Execute(w, Forum.HomePageData{
+	tmpl.Execute(w, HomePageData{
 		LastedThreads: Forum.GetLastedThreads(10),
 	})
 }

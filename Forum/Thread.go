@@ -4,6 +4,11 @@ import (
 	"Forum/Database"
 )
 
+type Thread struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+}
+
 func GetLastedThreads(limit int) []Thread {
 	rows, _ := Database.DB.Query("SELECT id,title FROM threads ORDER BY id DESC LIMIT ?;", limit)
 	var Threads []Thread
