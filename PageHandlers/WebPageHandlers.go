@@ -1,7 +1,6 @@
 package PageHandlers
 
 import (
-	"Forum/Database"
 	"Forum/Forum"
 	"html/template"
 	"net/http"
@@ -46,7 +45,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
-	if !Database.UserIsAdmin(w, r) {
+	if !Forum.UserIsAdmin(w, r) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}

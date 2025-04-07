@@ -13,7 +13,7 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Méthode invalide", http.StatusMethodNotAllowed)
 		return
 	}
-	if !Database.UserIsAdmin(w, r) {
+	if !Forum.UserIsAdmin(w, r) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
