@@ -8,7 +8,10 @@ import (
 )
 
 type HomePageData struct {
+	Username      string
 	LastedThreads []Forum.Thread
+	IsLogged      bool
+	IsAdmin       bool
 }
 
 func TestPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,8 +20,25 @@ func TestPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl, _ = template.ParseFiles("WebPages/home.html")
+	cookie, err := r.Cookie("session_id")
+	if err == nil {
+		user, err := Forum.GetUser(cookie.Value)
+		if err == nil {
+			tmpl.Execute(w, HomePageData{
+				Username:      user.Username,
+				LastedThreads: Forum.GetLastedThreads(10),
+				IsLogged:      true,
+				IsAdmin:       user.Role == 2,
+			})
+			return
+		}
+	}
+
 	tmpl.Execute(w, HomePageData{
+		Username:      "",
 		LastedThreads: Forum.GetLastedThreads(10),
+		IsLogged:      false,
+		IsAdmin:       false,
 	})
 }
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {

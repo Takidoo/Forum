@@ -17,14 +17,21 @@
                     <h1>Glitch Havoc</h1>
                 </div>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="/">Home</a></li>
+                    {{if .IsAdmin}}
+                    <li><a href="/admin">Admin Panel</a></li>
+                    {{end}}
                     <li class="search-container">
                         <a href="#">Search</a>
                         <div class="search-box">
                             <input type="text" placeholder="Tapez votre recherche...">
                         </div>
                     </li>
+                    {{if .IsLogged}}
+                    <button><a href="#">{{.Username}}</a></button>
+                    {{else}}
                     <button><a href="/login">Connexion</a></button>
+                    {{end}}
                 </ul>
             </div>
         </nav>
