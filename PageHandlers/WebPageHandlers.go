@@ -14,6 +14,10 @@ type HomePageData struct {
 	IsAdmin       bool
 }
 
+type AdminPageData struct {
+	Username string
+}
+
 func TestPageHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl, _ = template.ParseFiles("WebPages/test.html")
 	tmpl.Execute(w, nil)
@@ -46,8 +50,12 @@ func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
+	cookie, _ := r.Cookie("session_id")
+	user, _ := Forum.GetUser(cookie.Value)
 	var tmpl, _ = template.ParseFiles("WebPages/admin.html")
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, AdminPageData{
+		Username: user.Username,
+	})
 }
 
 func LoginPageHandler(w http.ResponseWriter, r *http.Request) {

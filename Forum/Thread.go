@@ -10,7 +10,7 @@ type Thread struct {
 }
 
 func GetLastedThreads(limit int) []Thread {
-	rows, _ := Database.DB.Query("SELECT id,title FROM threads ORDER BY id DESC AND visible=true LIMIT ?;", limit)
+	rows, _ := Database.DB.Query("SELECT id,title FROM threads WHERE visible=true ORDER BY id DESC LIMIT ?;", limit)
 	var Threads []Thread
 	for rows.Next() {
 		var thread Thread
