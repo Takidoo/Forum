@@ -92,6 +92,17 @@ func CreateTables() {
 	);
 		`,
 		`
+		CREATE TABLE IF NOT EXISTS likes (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			thread_id INTEGER NOT NULL,
+			user_id INTEGER NOT NULL,
+			UNIQUE(thread_id, user_id),
+			FOREIGN KEY (thread_id) REFERENCES threads(id) ON DELETE CASCADE,
+    		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	);
+		`,
+
+		`
 			CREATE UNIQUE INDEX IF NOT EXISTS idx_token ON sessions(token);
 		`,
 		`
