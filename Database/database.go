@@ -141,18 +141,6 @@ func CheckUserPassword(username, password string) bool {
 	return true
 }
 
-func CheckIfThreadExist(thread_id string) bool {
-	var title string
-	query := `SELECT title FROM threads WHERE id = ?`
-	err := DB.QueryRow(query, thread_id).Scan(&title)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false
-		}
-		return false
-	}
-	return true
-}
 func CheckIfCategoryExist(category_id string) bool {
 	var title string
 	query := `SELECT name FROM categories WHERE id = ?`
