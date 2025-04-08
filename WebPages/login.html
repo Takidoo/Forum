@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/login.css">
+    <script src="resources/fonctions.js" defer></script>
+    <title>GlitchHavoc</title>
+</head>
+<body>
+    <nav id="mainNav">
+        <div class="navLogo">
+            <img src="resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
+        </div>
+        <div class="navTitle">
+            <h1>GlitchHavoc</h1>
+        </div>
+        <div class="navAuth">
+            <button id="authBtn">Authentication</button>
+            <div id="authDropdown" class="dropdown-content">
+                <button id="navGoToConnexion">Login</button>
+                <button id="navGoToInscription">Register</button>   
+                <div class="dropdownLinks">
+                    <a href="#" id="navForgetIdlink">Forget ID</a>
+                    <a href="#" id="navForgetPasswordlink">Forget Password</a> 
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <header>
+            <h1>GlitchHavoc</h1>
+        </header>
+
+        <div id="image">
+            <div id="logo">
+                <img src="resources/pictures/Logo_GlitchHavoc.png" alt="Logo">
+            </div>
+            <div id="profilPicture">
+                <label for="picture">Profil picture: </label>
+                <input type="file" id="picture" accept="image/*">
+                <img id="preview" src="" alt="preview profil picture">
+            </div>
+        </div>
+
+        <section>
+            <div id="initialButtons" class="form">
+                <h2>Authentication</h2>
+                <button id="goToConnexion" href="#connexion">Login</button>
+                <button id="goToInscription" href="#inscription">Register</button>
+            </div>
+
+            <div id="connexion" class="form">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <label for="usernameConnexion"></label>
+                    <input type="text" id="usernameConnexion" name="usernameConnexion" placeholder="Username" required>
+                    <label for="passwordConnexion"></label>
+                    <input type="password" id="passwordConnexion" name="passwordConnexion" placeholder="Password" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div id="inscription" class="form">
+                <h2>Register</h2>
+                <form action="/register" method="POST">
+                    <label for="usernameInscription"></label>
+                    <input type="text" id="usernameInscription" name="usernameInscription" placeholder="Username" required>
+                    <label for="emailInscription"></label>
+                    <input type="email" id="emailInscription" name="emailInscription" placeholder="Email" required>
+                    <label for="passwordInscription"></label>
+                    <input type="password" id="passwordInscription" name="passwordInscription" placeholder="Password" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div id="updates" class="form">
+                <a href="#" id="forgetIdlink"><h3>forget ID</h3></a> <!--lien vers le javascript-->
+                <a href="#" id="forgetPasswordlink"><h3>forget password</h3></a>
+            </div>
+            
+            <div id="update" class="form">
+                <h2>change your informations</h2>
+                <form action="/update" method="POST">
+                    <label for="userEmail"></label>
+                    <input type="email" id="userEmail" name="userEmail" placeholder="your email adress" required>
+
+                    <label for="securityQuestion"></label>
+                    <select id="securityQuestion" name="securityQuestion" required>
+                        <option value="" disabled selected>Choose your security question</option>
+                        <option value="pet">What was the name of your first pet?</option>
+                        <option value="city">In which city were you born?</option>
+                        <option value="school">What was the name of your primary school?</option>
+                        <option value="mother">What is your mother's maiden name?</option>
+                        <option value="car">What was the brand of your first car?</option>
+                    </select>
+
+                    <label for="securityAnswer"></label>
+                    <input type="text" id="securityAnswer" name="securityAnswer" placeholder="security Answer" required>
+
+                    <div id="updateOptions">
+                        <button type="button" id="showUsernameUpdate">Change username</button>
+                        <button type="button" id="showPasswordUpdate">Change password</button>
+                    </div>
+
+                    <div id="usernameUpdateData">
+                        <label for="newUsername"></label>
+                        <input type="text" id="newUsername" name="newUsername" placeholder="new username">
+                    </div>
+
+                    <div id="passwordUpdateData">
+                        <label for="newPassword"></label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="new password"> <!--input de type password afin de masquer la saisie-->
+                        <label for="confirmPassword"></label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password">
+                    </div>
+
+                    <button type="submit" id="updateSubmit">save changes</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
