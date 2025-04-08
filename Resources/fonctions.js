@@ -2,68 +2,13 @@
 document.addEventListener("DOMContentLoaded", function() { //on ajoute une écoute d'événement au chargement de la page
     console.log("DOM chargé"); //affiche un message console pour vérifie que le contenu est bien chargé
     
-    /*GESTION DE L'AFFICHAGE DU MENU DEROULANT D'AUTHENTIFICATION*/
-    const authBtn = document.getElementById("authBtn"); //on récupère le bouton d'authentification
-    const authDropdown = document.getElementById("authDropdown"); //on récupère le menu déroulant d'authentification
-
-    if(authBtn && authDropdown) { //si le bouton et le menu existent
-        authBtn.addEventListener("click", function(e) { //on ajoute une écoute d'événement au clic sur le bouton d'authentification
-            e.stopPropagation(); //on empêche la propagation de l'événement
-
-            if(authDropdown.style.display === "block") { //si le menu est déjà affiché
-                authDropdown.style.display = "none"; //on le cache
-                authBtn.classList.remove("active"); //on enlève la classe active du bouton
-            }else{
-                authDropdown.style.display = "block"; //sinon, on l'affiche
-                authBtn.classList.add("active"); //on ajoute la classe active au bouton
-            }
-        });
-
-        /*ferme le menu si on clic ailleurs*/
-        document.addEventListener("click", function(event) { //on ajoute une écoute d'événement au clic sur le document
-            if (!authBtn.contains(event.target) && !authDropdown.contains(event.target)) { //si le clic n'est pas sur le bouton 
-                authDropdown.style.display = "none"; //on cache le menu
-                authBtn.classList.remove("active"); //on enlève la classe active du bouton
-            }
-        });
-    }
-
-    /*ON AFFICHE LES BOUTONS INITIAUX*/
-    document.getElementById("initialButtons").style.display="flex"; //on force l'affichage des boutons initiaux
-
-    /*GESTIONNAIRES D'EVENEMENTS POUR LE MENU DEROULANT ET LES BOUTONS MOBILES*/
-    
-
-    /*AFFICHER OU CACHER LE MENU AU CLIC DU BOUTON AUTHENTICATION*/
-    authBtn.addEventListener("click", function(e) { //on ajoute une écoute d'événement au clic sur le bouton d'authentification
-        e.stopPropagation(); 
-        if(authDropdown.style.display === "block") { //si le menu est déjà affiché
-            authDropdown.style.display = "none"; //on le cache
-            authBtn.classList.remove("active"); //on enlève la classe active du bouton
-        }else{
-            authDropdown.style.display = "block"; //sinon, on l'affiche
-            authBtn.classList.add("active"); //on ajoute la classe active au bouton
-        }
-    });
-
-    /*FERMER LE MENU AU CLIC EN DEHORS SUR LA PAGE*/
-    document.addEventListener("click", function(event) { //on ajoute une écoute d'événement au clic sur le document
-        if (!authBtn.contains(event.target) && !authDropdown.contains(event.target)) { //si le clic n'est pas sur le bouton ou le menu
-            authBtn.classList.remove("active"); //on enlève la classe active du bouton
-            authDropdown.style.display = "none"; //on cache le menu
-        }
-    });
-
-    /*AFFICHAGE INITIALE DES BOUTONS*/
     document.getElementById("initialButtons").style.display="flex"; //on force l'affichage des boutons initiaux
 
     /*AFFICHAGE DYNAMIQUE AU CLIC DU BOUTON LOGIN*/
     document.getElementById("goToConnexion").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Login
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton login"); //on affiche un message console pour vérifier que le clic fonctionne
-        authDropdown.style.display = "none"; //cache dropdow, le menu d'authentification
-        authBtn.classList.remove("active"); //enlève la classe active du bouton
-
+        document.getElementById("initialButtons").style.display="none"; //cache les boutons initiaux à l'activation du bouton connexion
         document.getElementById("logo").style.display="block"; //affiche le logo
         document.getElementById("connexion").style.display="flex"; //rend la div connexion visible à l'activation du bouton connexion
     });
@@ -72,48 +17,11 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
     document.getElementById("goToInscription").addEventListener("click", function(e) {//on ajoute une écoute d'événement au clic sur le bouton Register
         e.preventDefault(); //empêche le rechargement de la page
         console.log("click sur le bouton register"); //on affiche un message console pour vérifier que le clic fonctionne
-        authDropdown.style.display = "none"; //cache le menu d'authentification
-        authBtn.classList.remove("active"); //enlève la classe active du bouton
-
+        document.getElementById("initialButtons").style.display="none"; //rend les boutons invisibles à l'activation du bouton inscription
         document.getElementById("logo").style.display="none"; //rend le logo invisible
         document.getElementById("profilPicture").style.display="block"; //rend la div d'insertion de photo de profil visible
         document.getElementById("inscription").style.display="flex"; //rend la div inscription visible
     });
-
-    /*ADAPTER LES LIENS DU MENU DEROULANT POUR LES OUBLIS D'ID ET DE MOT DE PASSE*/
-    document.getElementById("forgetIdlink").addEventListener("click", function(e) { //on ajoute une écoute d'événement au clic sur le lien d'oubli d'id
-        e.preventDefault(); //empêche le rechargement de la page
-        console.log("click sur le lien d'oubli d'id"); //on affiche un message console pour vérifier que le clic fonctionne
-        authDropdown.style.display = "none"; //cache le menu d'authentification
-        authBtn.classList.remove("active"); //enlève la classe active du bouton
-        showUpdateSection('username'); //on affiche la section de mise à jour   
-    });
-
-    document.getElementById("forgetPasswordlink").addEventListener("click", function(e) { //on ajoute une écoute d'événement au clic sur le lien d'oubli de mot de passe
-        e.preventDefault(); //empêche le rechargement de la page
-        console.log("click sur le lien d'oubli de mot de passe"); //on affiche un message console pour vérifier que le clic fonctionne
-        authDropdown.style.display = "none"; //cache le menu d'authentification
-        authBtn.classList.remove("active"); //enlève la classe active du bouton
-        showUpdateSection('password'); //on affiche la section de mise à jour
-    });
-
-    /*FONCTION POUR GERER LA RESPONSIVE AU CHARGEMENT DE LA PAGE*/
-    function handleResponsiveDisplay(){
-        const mediaQuery = window.matchMedia("(max-width: 48em)"); //on crée une media query pour les écrans de moins de 768px
-
-        if (mediaQuery.matches) { //si la media query est vérifiée
-            if(document.getElementById("initialButtons")) { //si on est en mode desktop ou tablette, on cache les éléments mobiles
-                document.getElementById("initialButtons").style.display = "none";
-            }
-        }else{
-            if(document.getElementById("manNav")) { //si on est en mode mobile, on affiche les éléments desktop
-                document.getElementById("mainNav").style.display = "none";
-            }
-            if(document.getElementById("initialButtons")) { //si on est en mode desktop ou tablette, on affiche les éléments mobiles
-                document.getElementById("initialButtons").style.display = "flex";
-            }
-        }
-    }
 
     /*PREVISUALISATION DE L'IMAGE DE PROFIL*/
     document.getElementById("picture").addEventListener("change", function(event) { //affiche l'image sélectionnée dans la div preview à partir de l'input file
@@ -278,28 +186,21 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
     if(updateForm){
         updateForm.addEventListener("submit", function(e){
         e.preventDefault();
-
-        //on vérifie l'email de l'utilisateur et on rend le champ obligatoire
-        const userEmail = document.getElementById("userEmail").value.trim();
-        if(!userEmail){
-            alert("Please enter your email"); 
-            return;
-        }
-
-        //Vérification de la validité de l'email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //expression régulière pour vérifier la validité de l'email
-        if (!emailRegex.test(userEmail)) { //si l'email ne correspond pas à l'expression régulière
-            alert("Please enter a valid email address"); //on déclenche une alerte
-            return;
-        }
     
-        //on vérifie le nom de l'utilisateur et on rend le champ obligatoire
-        const currentUsername = document.getElementById("currentUsername").value.trim();
-        if(!currentUsername){
-            alert("Please enter your current username");
+        // On vérifie l'email de l'utilisateur et on rend le champ obligatoire
+        const userEmail = document.getElementById("userEmail").value.trim();
+        if(!userEmail) {
+            alert("Please enter your email address");
             return;
         }
 
+        // Vérification de la validité du format de l'email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(userEmail)) {
+            alert("Please enter a valid email address");
+            return;
+        }
+        
         //on vérifie que l'utilisateur a bien sélectionné une question de sécurité
         const securityQuestion = document.getElementById("securityAnswer").value.trim();
         if (!securityQuestion || securityQuestion === ""){
@@ -382,8 +283,3 @@ document.addEventListener("DOMContentLoaded", function() { //on ajoute une écou
         updateDiv.appendChild(backButtonUpdate);
     }
 });
-
-/*S'EXECTUTE A CHAQUE FOIS QUE LA PAGE EST REDIMENSIONNEE*/
-window.addEventListener("resize", handleResponsiveDisplay); //on ajoute une écoute d'événement au redimensionnement de la page
-handleResponsiveDisplay(); //on appelle la fonction pour gérer la responsive
-window.addEventListener("load", handleResponsiveDisplay); //on appelle la fonction pour gérer la responsive
