@@ -2,6 +2,7 @@ package Forum
 
 import (
 	"Forum/Database"
+	"database/sql"
 )
 
 type Thread struct {
@@ -18,4 +19,17 @@ func GetLastedThreads(limit int) []Thread {
 		Threads = append(Threads, thread)
 	}
 	return Threads
+}
+
+func CheckIfThreadExist(thread_id string) bool {
+	var title string
+	query := `SELECT title FROM threads WHERE id = ?`
+	err := Database.DB.QueryRow(query, thread_id).Scan(&title)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false
+		}
+		return false
+	}
+	return true
 }

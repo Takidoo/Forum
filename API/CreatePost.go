@@ -21,7 +21,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !Database.CheckIfThreadExist(thread_id) {
+	if !Forum.CheckIfThreadExist(thread_id) {
 		http.Error(w, "Thread doesn't exist", http.StatusBadRequest)
 		return
 	}

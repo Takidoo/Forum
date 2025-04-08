@@ -92,6 +92,17 @@ func CreateTables() {
 	);
 		`,
 		`
+		CREATE TABLE IF NOT EXISTS likes (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			thread_id INTEGER NOT NULL,
+			user_id INTEGER NOT NULL,
+			UNIQUE(thread_id, user_id),
+			FOREIGN KEY (thread_id) REFERENCES threads(id) ON DELETE CASCADE,
+    		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	);
+		`,
+
+		`
 			CREATE UNIQUE INDEX IF NOT EXISTS idx_token ON sessions(token);
 		`,
 		`
@@ -130,18 +141,6 @@ func CheckUserPassword(username, password string) bool {
 	return true
 }
 
-func CheckIfThreadExist(thread_id string) bool {
-	var title string
-	query := `SELECT title FROM threads WHERE id = ?`
-	err := DB.QueryRow(query, thread_id).Scan(&title)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false
-		}
-		return false
-	}
-	return true
-}
 func CheckIfCategoryExist(category_id string) bool {
 	var title string
 	query := `SELECT name FROM categories WHERE id = ?`

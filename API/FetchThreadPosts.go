@@ -14,7 +14,7 @@ func FetchThreadPosts(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, aerr.Error(), http.StatusUnauthorized)
 		return
 	}
-	if !Database.CheckIfThreadExist(r.FormValue("thread_id")) {
+	if !Forum.CheckIfThreadExist(r.FormValue("thread_id")) {
 		http.Error(w, "Invalid Thread ID", http.StatusBadRequest)
 		return
 	}

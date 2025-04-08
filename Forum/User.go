@@ -22,7 +22,6 @@ func GetUser(session string) (User, error) {
 	_ = Database.DB.QueryRow("SELECT username, role FROM users WHERE id = ?", user.ID).Scan(&user.Username, &user.Role)
 	return user, nil
 }
-
 func UserIsAdmin(w http.ResponseWriter, r *http.Request) bool {
 	auth, _ := Database.MiddlewareAuth(w, r)
 	if !auth {
