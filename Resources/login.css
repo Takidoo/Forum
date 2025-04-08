@@ -1,95 +1,21 @@
-/*AFFICHAGE TABLETTE*/
 @media (min-width: 48em) {
     body{
         font-size: 18px; /*base de police légèrement plus grande*/
     }
-    main > header, #initialButtons{ /*cache les éléments de la version mobile*/
-        display: none;
-    }
-    #mainNav{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.75rem 1rem;
-        background-color: #112255;
-        border-bottom: 0.25rem solid #ffaa00; /*environ 4px*/
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-    .navLogo img{
-        height: 2.5rem; /*environ 40px*/
-    }
-    .navTitle h1{
-        font-size: clamp(1.5rem, 2.5vw, 2rem);
-        color: #ffaa00;
-        text-transform: uppercase;
-    }
-    .navAuth{
-        position: relative;
-    }
-    #authBtn{
-        background-color: #ffaa00;
-        color: #fff;
-        border: none;
-        border-radius: 0.3rem 0.3rem 0 0; /*environ 5px*/
-        padding: 0.6rem 1rem;
-        font-size: 1rem;
-        cursor: pointer;
-        box-shadow: 0 0.25rem 0 #cc8800;
-    }
-    #authBtn.active{
-        border-radius: 0.3rem 0.3rem 0 0; /*environ 5px*/
-        background-color: #112255;
-        border: 1px solid #ffaa00;
-        border-bottom: none;
-        box-shadow: none;
-    }
-    .dropdown-content{
-        display: none;
-        position: absolute;
-        right: 0;
-        top: 100%;
-        width: 100%;
-        min-width: 12rem;
-        background-color: #112255;
-        border: 1px solid #ffaa00;
-        border-top: none;
-        border-radius: 0 0 0 0.3rem 0.3rem;
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.7);
-    }
-    .dropdown-content button{
-        width: 100%;
-        padding: 0.75rem;
-        text-align: center;
-        background-color: #ffaa00;
-        color: #fff;
-        border: none;
-        border-bottom: 1px solid #cc8800;
-    }
-    .dropdownLink{
-        padding: 0.5rem;
-    }
-    .dropdownLink a{
-        display: block;
-        color: #ffaa00;
-        text-decoration: none;
-        padding: 0.5rem;
-        text-align: center;
-    }
-    #initialButton{ /*cache les boutons initiaux*/
-        display: none;
-    }
     main {
-        margin-top: 4.5rem; /*environ 70px*/
-        grid-template-areas: 
-            "image section";
-        grid-template-columns: 1fr 1.5fr;
-        grid-template-rows: auto 1fr;
-        gap: 1.5rem;
-        padding: 1rem;
+      grid-template-areas: 
+        "header header"
+        "image section";
+      grid-template-columns: 1fr 1.5fr;
+      grid-template-rows: auto 1fr;
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+    header{
+        padding: 1.25rem;
+    }
+    header h1{
+        font-size: clamp(1.5rem, 4vw, 2.75rem);
     }
     #logo{
         max-height: 50vh;
@@ -115,41 +41,24 @@
     }
 }
 
-/*AFFICHAGE DESKTOPS*/
 @media (min-width: 64em){
     body{
         max-width: 90em; /*largeur maximale à 1440px*/
         margin: 0 auto; /*centré sur la page*/
     }
-    #mainNav{
-        padding: 0.75rem 2rem;
-        max-width: 90em;
-        margin: 0 auto;
-    }
-    .navLogo img{
-        height: 3.5rem; /*environ 50px*/
-    }
-    .navTitle h1{
-        font-size: clamp(1.75rem, 3vw, 2.5rem);
-    }
-    #authBtn{
-        padding: 0.8rem 1.5rem;
-        transition: all 0.2s ease;
-    }
-    #authBtn:hover{
-        transform: translateY(-2px);
-    }
-    #authBtn:hover:not(.active){
-        transform: translateY(-2px);
-        background-color: #561efe;
-    }
     main{
-        margin-top: 5rem;
         grid-template-areas: 
+            "header header header"
             "image section section";
         grid-template-columns: 1fr 2fr 2fr;
         gap: 2rem;
         padding: 1.5rem;
+    }
+    header{
+        padding: 1.5rem;
+    }
+    header h1{
+        font-size: clamp(1.75rem, 3vw, 3rem);
     }
     section{
         padding: 30px;
@@ -186,25 +95,9 @@
         max-width: 80%;
         padding: 1.75rem;
     }
-    .dropdown-content{
-        width: 15rem;
-    }
-    .dropdown-content{
-        padding: 0.8rem;
-        transition: all 0.2s ease;
-    }
-    .dropdown-content:hover{
-        background-color: #561efe;
-    }
-    .dropdownLinks a{
-        transition: all 0.2s ease;
-    }
-    .dropdownLinks a:hover{
-        color: #fff;
-    }
+
 }
 
-/*STYLE EN MOBILE-FIRST*/
 *{
     margin: 0;
     padding: 0;
@@ -220,34 +113,6 @@ body{
     margin: 0 auto;
     font-size: 16px;
 }
-#mainNav{
-    display: none; /*cache le menu de navigation sur mobile*/
-    background-color: #112255;
-    border-bottom: 0.25rem solid rgba(0, 0, 0, 0.5); /*environ 4px*/
-    width: 100%;
-}
-.navLogo img{
-    height: 3rem; /*environ 50px*/
-    width: auto;
-}
-.navTitle h1{
-    color: #ffaa00;
-    text-transform: uppercase;
-}
-#authBtn{
-    background-color: #ffaa00;
-    color: #fff;
-    border: none;
-    border-radius: 0.3rem; /*environ 5px*/
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 0.25rem 0 #cc8800;
-}
-#authBtn:hover{
-    background-color: #561efe;
-}
-
 main{
     display: grid;/*grid permet une flexibilité plus précise grâce à la disposition des éléments*/
     grid-template-areas: 
@@ -341,7 +206,8 @@ section h2{
     font-size: clamp(1.25rem, 4vw, 2rem);
     color: #561efe;
     margin-bottom: 1rem;
-    white-space: normal;
+    white-space: nowrap;
+    overflow: visible;
 }
 .form{
     display: none;
@@ -413,7 +279,7 @@ button:hover{
     background-color: #f1f1f1;
     color:#000832;
     border: none;
-    border-radius: 0.3rem;
+    border-radius: 0."rem";
     font-size: 1rem;
     cursor: pointer;
 }
@@ -432,7 +298,7 @@ button:hover{
     margin: 1.2rem auto;
     background-color: rgba(50, 70, 200, 0.5);
     backdrop-filter: blur(10px);
-    border-radius: 0.3rem;
+    border-radius: 0.§rem;
     box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.2);    
 }
 #updates a{
