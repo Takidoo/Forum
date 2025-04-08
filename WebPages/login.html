@@ -52,24 +52,24 @@
 
             <div id="connexion" class="form">
                 <h2>Login</h2>
-                <form action="/login" method="POST">
+                <form action="/api/login" method="POST">
                     <label for="usernameConnexion"></label>
-                    <input type="text" id="usernameConnexion" name="usernameConnexion" placeholder="Username" required>
+                    <input type="text" id="usernameConnexion" name="username" placeholder="Username" required>
                     <label for="passwordConnexion"></label>
-                    <input type="password" id="passwordConnexion" name="passwordConnexion" placeholder="Password" required>
+                    <input type="password" id="passwordConnexion" name="password" placeholder="Password" required>
                     <button type="submit">Submit</button>
                 </form>
             </div>
 
             <div id="inscription" class="form">
                 <h2>Register</h2>
-                <form action="/register" method="POST">
+                <form action="/api/register" method="POST">
                     <label for="usernameInscription"></label>
-                    <input type="text" id="usernameInscription" name="usernameInscription" placeholder="Username" required>
+                    <input type="text" id="usernameInscription" name="username" placeholder="Username" required>
                     <label for="emailInscription"></label>
-                    <input type="email" id="emailInscription" name="emailInscription" placeholder="Email" required>
+                    <input type="email" id="emailInscription" name="email" placeholder="Email" required>
                     <label for="passwordInscription"></label>
-                    <input type="password" id="passwordInscription" name="passwordInscription" placeholder="Password" required>
+                    <input type="password" id="passwordInscription" name="password" placeholder="Password" required>
                     <button type="submit">Submit</button>
                 </form>
             </div>
