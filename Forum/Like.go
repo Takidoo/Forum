@@ -13,6 +13,7 @@ func AddThreadLike(thread_id string, user_id int) error {
 	if err != nil {
 		return err
 	}
+	Database.DB.Exec("UPDATE threads SET likes= likes + 1 WHERE id=?", thread_id)
 	return nil
 }
 
