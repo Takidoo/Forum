@@ -7,10 +7,11 @@ import (
 )
 
 type HomePageData struct {
-	Username      string
-	LastedThreads []Forum.Thread
-	IsLogged      bool
-	IsAdmin       bool
+	Username        string
+	LastedThreads   []Forum.Thread
+	MostLikedThread []Forum.Thread
+	IsLogged        bool
+	IsAdmin         bool
 }
 
 type AdminPageData struct {
@@ -28,20 +29,22 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		user, err := Forum.GetUser(cookie.Value)
 		if err == nil {
 			tmpl.Execute(w, HomePageData{
-				Username:      user.Username,
-				LastedThreads: Forum.GetLastedThreads(10),
-				IsLogged:      true,
-				IsAdmin:       user.Role == 2,
+				Username:        user.Username,
+				LastedThreads:   Forum.GetLastedThreads(10),
+				MostLikedThread: Forum.GetMostLikedThreads(10),
+				IsLogged:        true,
+				IsAdmin:         user.Role == 2,
 			})
 			return
 		}
 	}
 
 	tmpl.Execute(w, HomePageData{
-		Username:      "",
-		LastedThreads: Forum.GetLastedThreads(10),
-		IsLogged:      false,
-		IsAdmin:       false,
+		Username:        "",
+		LastedThreads:   Forum.GetLastedThreads(10),
+		MostLikedThread: Forum.GetMostLikedThreads(10),
+		IsLogged:        false,
+		IsAdmin:         false,
 	})
 }
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
