@@ -45,7 +45,8 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
-	if !Forum.UserIsAdmin(w, r) {
+	session, _ := r.Cookie("session_id")
+	if !Forum.UserIsAdmin(session.Value) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}

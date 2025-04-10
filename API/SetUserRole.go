@@ -13,13 +13,13 @@ func SetUserRole(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Méthode invalide", http.StatusMethodNotAllowed)
 		return
 	}
-	if !Forum.UserIsAdmin(w, r) {
+	session, _ := r.Cookie("session_id")
+	if !Forum.UserIsAdmin(session.Value) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
-	cookie, _ := r.Cookie("session_id")
 	var user Forum.User
-	user, _ = Forum.GetUser(cookie.Value)
+	user, _ = Forum.GetUser(session.Value)
 	roleInt, _ := strconv.Atoi(r.FormValue("RoleID"))
 	if roleInt > user.Role {
 		http.Error(w, "Vous ne pouvez pas donner des permissions au dessus des votres", http.StatusUnauthorized)

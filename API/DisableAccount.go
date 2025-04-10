@@ -12,7 +12,8 @@ func DisableAccount(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Méthode invalide", http.StatusMethodNotAllowed)
 		return
 	}
-	if !Forum.UserIsAdmin(w, r) {
+	session, _ := r.Cookie("session_id")
+	if !Forum.UserIsAdmin(session.Value) {
 		http.Error(w, "You're not admin", http.StatusUnauthorized)
 		return
 	}
