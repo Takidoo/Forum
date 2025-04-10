@@ -1,103 +1,4 @@
-@media (min-width: 48em) {
-    body{
-        font-size: 18px; /*base de police légèrement plus grande*/
-    }
-    main {
-      grid-template-areas: 
-        "header header"
-        "image section";
-      grid-template-columns: 1fr 1.5fr;
-      grid-template-rows: auto 1fr;
-      gap: 1.5rem;
-      padding: 1rem;
-    }
-    header{
-        padding: 1.25rem;
-    }
-    header h1{
-        font-size: clamp(1.5rem, 4vw, 2.75rem);
-    }
-    #logo{
-        max-height: 50vh;
-        width: 85%;
-        max-width: 22rem;
-    }
-    section{
-        max-width: 100%;
-        padding: 1.5rem;
-        margin: 0;
-    }
-    section h2{
-        font-size: clamp(1.25rem, 2.5vw, 2.2rem);
-    }
-    form{
-        padding: 1.5rem;
-    }
-    .form, #updates{
-        max-width: 90%;
-    }
-    button, input, select{
-        padding: 0.75rem;
-    }
-}
-
-@media (min-width: 64em){
-    body{
-        max-width: 90em; /*largeur maximale à 1440px*/
-        margin: 0 auto; /*centré sur la page*/
-    }
-    main{
-        grid-template-areas: 
-            "header header header"
-            "image section section";
-        grid-template-columns: 1fr 2fr 2fr;
-        gap: 2rem;
-        padding: 1.5rem;
-    }
-    header{
-        padding: 1.5rem;
-    }
-    header h1{
-        font-size: clamp(1.75rem, 3vw, 3rem);
-    }
-    section{
-        padding: 30px;
-    }
-    section h2{
-        font-size: clamp(1.5rem, 1.5vw, 2.5rem);
-        margin-bottom: 1.5rem;
-    }
-    #image{
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    #logo{
-        max-height: 60vh;
-        max-width: 25rem; /*400px environ*/
-    }
-    form{
-        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-        gap: 1.5rem;
-        padding: 2rem;
-    }
-    #updateOptions{
-        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-    }
-    button{
-        padding: 0.8rem 1.8rem;
-        transition: all 0.2s ease;
-    }
-    button:hover{
-        transform: translateY(-1.25px);
-    }
-    .form, #updates{
-        max-width: 80%;
-        padding: 1.75rem;
-    }
-
-}
-
+/*STYLE MOBILE FIRST*/
 *{
     margin: 0;
     padding: 0;
@@ -121,7 +22,7 @@ main{
         "section";
     grid-template-rows: auto auto auto; 
     grid-template-columns: 1fr;
-    min-height: 100vh; /*prend toute la hauteur de l'écran*/
+    min-width: 100vw; /*prend toute la largeur de l'écran*/
     padding: 0.6rem; /*environ 10px*/
     gap: 1rem;
 }
@@ -150,14 +51,19 @@ header h1{
     justify-content: center;
     align-items: center;
     width: 100%;
+    height: 100%;
+    min-height: 20vh;
 }
 #logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: auto;/*la hauteur est adaptative*/
     width: 70%;/*la largeur est de 70% de la largeur de son conteneur*/
     max-width: 19rem; /*environ 300px*/
-    margin: 0 auto;
+    margin: 0;
     border: 0.2rem solid #ffaa00; /*environ 3px*/
-    border-radius: 0.6; /*environ 10px*/
+    border-radius: 0.6rem; /*environ 10px*/
 }
 #logo img{
     display: block;
@@ -172,10 +78,12 @@ header h1{
     margin: 0 auto;
     text-align: center;
 }
-#profilPicture label{
+label{
     display: block;
     color: #f1f1f1;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.3rem;
+    text-align: start;
+    font-size: 0.9rem;
 }
 #profilPicture input[type="file"]{
     margin-bottom: 0.6rem;
@@ -192,12 +100,16 @@ header h1{
 section{
     grid-area: section;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 19rem;
+    max-width: 22rem;
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 1.25rem;
-    border-radius: 0.6;
+    border-radius: 0.6rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.7);
     overflow: hidden;
 }
@@ -220,7 +132,7 @@ section h2{
     margin: 0 auto;
     background-color: #f1f1f1 !important;
     border-radius: 0.6rem;
-    box-shadow: 0 0.25rem 0.6 rgba(0,0,0,0.1);
+    box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
 form{
@@ -252,7 +164,7 @@ input:focus{
 }
 input:invalid:focus{
     border-color: #a9dedf;
-    box-shadow: 0 0 0 0.125em rgba(15, 57, 125, 0.25);
+    box-shadow: 0 0 0 0.125em  rgba(15, 57, 125, 0.25);
 }
 button{
     padding:0.75rem 1.5rem;
@@ -265,12 +177,12 @@ button{
     min-width: 5rem; /*environ 5px*/
     padding: 0.6rem;
     cursor: pointer;
-    box-shadow: 0 0.25rem 0 #cc8800;
+    box-shadow: 0 0.25rem 0.6rem #cc8800;
     transition: all 0.3s ease;
 }
 button:hover{
     background-color: #561efe !important;
-    box-shadow: 0 0.25rem 0 #aa6600;
+    box-shadow: 0 0.25rem 0.6rem #aa6600;
 }
 .backButton{
     display: block;
@@ -279,7 +191,7 @@ button:hover{
     background-color: #f1f1f1;
     color:#000832;
     border: none;
-    border-radius: 0."rem";
+    border-radius: 0.3rem;
     font-size: 1rem;
     cursor: pointer;
 }
@@ -292,13 +204,13 @@ button:hover{
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 22rem;
+    max-width: 100%;/*utilise tout l'espace disponible dans la section*/
     gap: 1rem;
     padding: 1.2rem;
     margin: 1.2rem auto;
     background-color: rgba(50, 70, 200, 0.5);
     backdrop-filter: blur(10px);
-    border-radius: 0.§rem;
+    border-radius: 0.3rem;
     box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.2);    
 }
 #updates a{
@@ -338,7 +250,7 @@ button:hover{
 }
 #updateOptions button{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin: 0.6rem 0px;
 }
@@ -360,6 +272,161 @@ button:hover{
     display: none;
     color: #a9dedf;
     font-size: 0.8rem;
-    margin-top: -O.6rem; /*environ moins 10px*/
+    margin-top: -0.6rem; /*environ moins 10px*/
     margin-bottom: 0.6rem;
+}
+
+
+/*STYLE TABLET*/
+@media (min-width: 48em) {
+    body{
+        font-size: 18px; /*base de police légèrement plus grande*/
+    }
+    main {
+        display: grid;
+        grid-template-areas: 
+            "header header"
+            "image section";
+        grid-template-columns: 1fr 1.5fr;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh; /*prend toute la hauteur de l'écran*/
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+    header{
+        grid-area: header;
+        padding: 1.25rem;
+    }
+    header h1{
+        font-size: clamp(1.5rem, 4vw, 2.75rem);
+    }
+    #image{
+        grid-area: image;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-height: 50vh;
+        width: 85%;
+        max-width: 22rem;
+        margin: auto; /*centré sur la page*/
+    }
+    #profilPicture{
+        width: 85%;
+        max-width: 22rem;
+        margin: auto; /*centré sur la page*/
+    }
+    label{
+        display: none;
+    }
+    #preview{
+        width: 85%;
+        max-width: 20rem; /*environ 320px*/
+        border: solid 2px #f1f1f1;
+    }
+    section{
+        grid-area: section;
+        max-width: 90%; /*augmenté pour lui donner plus d'espace*/
+        padding: 1.5rem;
+        margin: 0 auto; /*centré sur la page*/
+        align-self: center;
+        justify-self: center;
+    }
+    section h2{
+        font-size: clamp(1.25rem, 2.5vw, 2.2rem);
+    }
+    form{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 1.5rem;
+    }
+    .form, #updates{
+        max-width: 95%;
+    }
+    button, input, select{
+        padding: 0.75rem;
+    }
+}
+
+
+/*STYLE DESKTOP*/
+@media (min-width: 64em){
+    body{
+        max-width: 90em; /*largeur maximale à 1440px*/
+        margin: 0 auto; /*centré sur la page*/
+    }
+    main{
+        display: grid;
+        grid-template-areas: 
+            "header header header"
+            "image section section";
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh; /*prend toute la hauteur de l'écran*/
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+    header{
+        grid-area: header;
+        padding: 1.5rem;
+    }
+    header h1{
+        font-size: clamp(1.75rem, 3vw, 3rem);
+    }
+    section{
+        grid-area: section;
+        max-width: 100%;
+        padding: 30px;
+        margin: 0 auto; /*centré sur la page*/
+    }
+    section h2{
+        font-size: clamp(1.5rem, 1.5vw, 2.5rem);
+        margin-bottom: 1.5rem;
+    }
+    #image{
+        grid-area: image;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+    #logo{
+        max-height: 60vh;
+        max-width: 25rem; /*400px environ*/
+        margin: auto; /*centré sur la page*/
+    }
+    #profilPicture{
+        width: 85%;
+        max-width: 25rem; /*400px environ*/
+        margin: auto; /*centré sur la page*/
+    }
+    #preview{
+        width: 85%;
+        max-width: 20rem; /*environ 320px*/
+        border: solid 2px #f1f1f1;
+    }
+    form{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 2rem;
+    }
+    #updateOptions{
+        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    }
+    button{
+        padding: 0.8rem 1.8rem;
+        transition: all 0.2s ease;
+    }
+    button:hover{
+        transform: translateY(-1.25px);
+    }
+    .form, #updates{
+        max-width: 85%;
+        padding: 1.75rem;
+    }
+
 }
