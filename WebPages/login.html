@@ -50,6 +50,17 @@
                     <input type="text" id="usernameInscription" name="username" placeholder="Username" required>
                     <label for="emailInscription"></label>
                     <input type="email" id="emailInscription" name="email" placeholder="your email address" required>
+                    <label for="securityQuestion"></label>
+                    <select id="securityQuestion" name="securityQuestion" required>
+                        <option value="" disabled selected>Choose your security question</option>
+                        <option value="pet">What was the name of your first pet?</option>
+                        <option value="city">In which city were you born?</option>
+                        <option value="school">What was the name of your primary school?</option>
+                        <option value="mother">What is your mother's maiden name?</option>
+                        <option value="car">What was the brand of your first car?</option>
+                    </select>
+                    <label for="securityAnswer"></label>
+                    <input type="text" id="securityAnswer" name="securityAnswer" placeholder="security Answer" required>
                     <label for="passwordInscription"></label>
                     <input type="password" id="passwordInscription" name="password" placeholder="Password" required>
                     <button type="submit">Submit</button>
