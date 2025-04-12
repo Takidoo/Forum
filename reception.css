@@ -1,0 +1,212 @@
+/* Styles de base pour mobile-first */
+body {
+    background: #1C2B59;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    margin: clamp(10px, 2vw, 20px); /* Marge adaptable */
+    overflow-x: hidden;
+}
+
+.navigation,
+.photo_profil {
+    width: clamp(30px, 5vw, 50px); /* Taille adaptable pour les icônes */
+    height: clamp(30px, 5vw, 50px);
+    border-radius: 50%;
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+}
+
+.research {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Trois colonnes : navigation, recherche, photo de profil */
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    gap: clamp(10px, 2vw, 20px); /* Espacement adaptable */
+    width: 100%;
+    max-width: clamp(300px, 80vw, 600px); /* Largeur adaptable */
+    margin: 0px auto; /* Centrer horizontalement avec une marge verticale */
+}
+
+.search-container {
+    display: grid;
+    gap: clamp(10px, 2vw, 20px); /* Espacement entre les éléments du formulaire */
+    align-items: center;
+    width: 100%;
+}
+
+.search-bar {
+    display: flex; /* Aligne la barre de recherche et l'icône sur la même ligne */
+    align-items: center; /* Aligne verticalement les éléments au centre */
+    gap: clamp(5px, 1vw, 10px); /* Espacement entre la barre de recherche et l'icône */
+    width: 100%;
+}
+
+.reshearch1 {
+    flex: 1; /* Permet à la barre de recherche de prendre tout l'espace disponible */
+    padding: clamp(5px, 1vw, 10px); /* Espacement interne adaptable */
+    border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
+    border: 1px solid #ccc; /* Ajoute une bordure pour la barre de recherche */
+    background: #f0f0f0;
+}
+
+.search {
+    width: clamp(20px, 5vw, 40px); /* Taille adaptable pour l'icône */
+    height: clamp(30px, 5vw, 40px);
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+}
+
+form {
+    background: #2A5CBF;
+    display: grid;
+    gap: clamp(5px, 1vw, 10px); /* Espacement fixe entre les éléments */
+    align-content: center;
+    padding: clamp(10px, 2vw, 20px); /* Espacement interne adaptable */
+    border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
+    width: 95%;
+    max-width: clamp(300px, 50vw, 400px); /* Largeur maximale adaptable */
+}
+
+.section h4 {
+    margin: 0; /* Supprime les marges par défaut */
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.5rem); /* Taille de police adaptable */
+}
+
+.themes ul,
+.like ul,
+.popular ul,
+.discussions ul {
+    display: grid; /* Utilise une grille pour les éléments */
+    grid-auto-flow: column; /* Aligne les éléments horizontalement */
+    gap: clamp(5px, 1vw, 10px); /* Espacement adaptable entre les éléments */
+    list-style: none; /* Supprime les puces de la liste */
+    padding: 0;
+    margin: 0;
+    overflow-x: auto; /* Active le défilement horizontal */
+}
+
+.like li,
+.popular li,
+.discussions li {
+    display: grid; /* Chaque élément reste un conteneur grid */
+    background: #e0e0e0;
+    padding: clamp(5px, 1vw, 10px) clamp(10px, 2vw, 20px); /* Espacement interne adaptable */
+    border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
+    white-space: nowrap; /* Empêche le texte de se couper */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    text-align: center;
+}
+
+.themes button{
+    display: grid; /* Chaque élément reste un conteneur grid */
+    background: #e0e0e0;
+    padding: clamp(5px, 1vw, 10px) clamp(10px, 2vw, 20px); /* Espacement interne adaptable */
+    border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
+    white-space: nowrap; /* Empêche le texte de se couper */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    text-align: center;
+}
+
+.section .view-all {
+    display: inline-block;
+    background: #007BFF; /* Couleur de fond pour le lien */
+    color: #fff; /* Couleur du texte */
+    padding: clamp(5px, 1vw, 10px) clamp(10px, 2vw, 20px); /* Espacement interne adaptable */
+    border-radius: clamp(5px, 1vw, 10px); /* Coins arrondis adaptables */
+    text-decoration: none; /* Supprime le soulignement */
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.3s ease;
+    justify-self: flex-end;
+}
+
+.section .view-all:hover {
+    background: #0056b3; /* Couleur de fond au survol */
+}
+
+.themes,
+.popular,
+.like,
+.discussions {
+    display: grid;
+    grid-template-rows: auto 1fr; /* Première ligne pour le titre et le lien, deuxième ligne pour le contenu */
+    gap: clamp(10px, 2vw, 20px); /* Espacement entre les lignes */
+    background: #f0f0f0;
+    padding: clamp(10px, 2vw, 20px); /* Espacement interne adaptable */
+    border-radius: clamp(10px, 2vw, 20px); /* Coins arrondis adaptables */
+    width: 95%;
+    max-width: 100%; /* Permet au conteneur de s'étendre horizontalement */
+    margin: clamp(10px, 2vw, 20px) auto;
+    overflow-x: auto; /* Active le défilement horizontal pour le contenu */
+}
+
+.popular,
+.like,
+.discussions{
+    background: #2A5CBF;
+}
+
+.section {
+    display: flex; /* Aligne les éléments horizontalement */
+    justify-content: space-between; /* Place `h4` à gauche et `view-all` à droite */
+    align-items: center; /* Aligne verticalement les éléments au centre */
+    width: 100%;
+}
+
+.dropbtn {
+    background-color: #121526;
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Coins arrondis pour le bouton */
+}
+  
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #121526;
+}
+  
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+.dropdown a:hover {
+    background-color: #ddd;
+}
+  
+.show {
+    display: block;
+}
+
+/* Media Queries pour les écrans plus larges */
+@media (min-width: 768px) {
+    body {
+        margin: clamp(20px, 3vw, 40px);
+    }
+
+    form {
+        max-width: clamp(400px, 50vw, 600px);
+    }
+
+    .search-bar {
+        gap: 15px; /* Augmente l'espacement entre la barre de recherche et l'icône */
+    }
+}

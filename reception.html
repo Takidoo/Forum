@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/resources/reception.css">
+    <script src="/resources/fonctions.js"></script>
+</head>
+<body>
+    <div class="research">
+        <!-- Icône de navigation -->
+        <img class="navigation" src="/resources/pictures/navigation.png" alt="navigation" onclick="window.location.href = '/navigation';">
+        
+        <!-- Barre de recherche -->
+        <form action="/research" method="POST">
+            <div class="search-bar">
+                <input class="reshearch1" name="title" id="title" placeholder="Search..." type="text" required>
+                <img class="search" src="/resources/pictures/search.png" alt="search" onclick="document.getElementById('searchForm').submit();">
+            </div>
+            <div class="dropdown">
+                <button onclick="Filter()" class="dropbtn" type="button">filter</button>
+                <div id="myDropdown" class="dropdown-content">
+                  <a href="#categories">categories</a>
+                  <a href="#created posts">created posts</a>
+                  <a href="#liked posts">liked posts</a>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Photo de profil -->
+        <img class="photo_profil" src="" alt="photo_profil" onclick="window.location.href = '/profil';" onload="this.src = localStorage.getItem('profilePicture') || '/resources/pictures/default.png';">
+    </div>
+
+    <div class="themes"> 
+        <div class="section">
+            <h4>Themes</h4>
+            <a href="/all-themes" class="view-all">View All</a><!--lien pour tout voir thèmes-->
+        </div>
+        <!--Différent thèmes abordé-->
+        <ul>
+            <button class="theme-button" onclick="window.location.href = '/theme/1';">Theme 1</button>
+            <button class="theme-button" onclick="window.location.href = '/theme/2';">Theme 2</button>
+            <button class="theme-button" onclick="window.location.href = '/theme/3';">Theme 3</button>
+            <button class="theme-button" onclick="window.location.href = '/theme/4';">Theme 4</button>
+            <button class="theme-button" onclick="window.location.href = '/theme/5';">Theme 5</button>
+            <button class="theme-button" onclick="window.location.href = '/theme/6';">Theme 6</button>
+        </ul>
+    </div>
+
+    <!--montre les threads en fonction du nombre de like-->
+    <div class="popular"> 
+        <div class="section">
+            <h4>Popular</h4>
+            <a href="/all-popular" class="view-all">View All</a><!--lien pour tout voir populaire-->
+        </div>
+        <!--threads les plus populaire max: 6 et défilement-->
+        <ul>
+            <li>Popular</li>
+        </ul>
+    </div>
+
+    <!--threads qu'on a aimé-->
+    <div class="like">
+        <div class="section">
+            <h4>Liked Discussions</h4>
+            <a href="/all-likes" class="view-all">View All</a> <!--lien pour tout voir like-->
+        </div>
+        <!--threads liké max: 6 et défilement-->
+        <ul id="liked-discussions">
+            <li>Like</li>
+        </ul>
+    </div>
+
+    <!-- threads les plus récentes -->
+    <div class="discussions"> 
+        <div class="section">
+            <h4>Discussions</h4>
+            <a href="/all-discussions" class="view-all">View All</a><!--lien pour tout voir threads-->
+        </div>
+        
+        <ul id="discussions">
+            <li>Loading...</li> <!-- Message par défaut avant le chargement -->
+        </ul>
+    </div>
+
+</body>
+</html>
